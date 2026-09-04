@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 Regression and Classification Trees | Machine Learning for Biostatistics</title>
+  <meta name="description" content="1 Regression and Classification Trees | Machine Learning for Biostatistics" />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 Regression and Classification Trees | Machine Learning for Biostatistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 Regression and Classification Trees | Machine Learning for Biostatistics" />
+  
+  
+  
+
+<meta name="author" content="Armando Teixeira-Pinto &amp; Jaroslaw Harezlak" />
+
+
+<meta name="date" content="2026-09-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="bagging.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><center><img src="bca.png"><H3><b><font color="F26531"> Machine Learning for Biostatistics </font> </b></H3> <a href="https://canvas.sydney.edu.au/courses/74457/modules" style="color:364550" target="blank"><small><i> Back to canvas website </i></small></a></center></li>
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Beyond Additivity</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#introduction"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dataset-used-in-the-examples"><i class="fa fa-check"></i>Dataset used in the examples</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#slides-from-the-videos"><i class="fa fa-check"></i>Slides from the videos</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html"><i class="fa fa-check"></i><b>1</b> Regression and Classification Trees</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#RCT1"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#CART2"><i class="fa fa-check"></i><b>1.2</b> Readings</a></li>
+<li class="chapter" data-level="1.3" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#CART3"><i class="fa fa-check"></i><b>1.3</b> Practice session</a>
+<ul>
+<li class="chapter" data-level="" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#task-1---grow-a-complete-regression-tree"><i class="fa fa-check"></i>Task 1 - Grow a complete regression tree</a></li>
+<li class="chapter" data-level="" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#task-2---make-predictions-from-a-tree"><i class="fa fa-check"></i>Task 2 - Make predictions from a tree</a></li>
+<li class="chapter" data-level="" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#task-3---fit-a-tree-using-cross-validation"><i class="fa fa-check"></i>Task 3 - Fit a tree using Cross-validation</a></li>
+<li class="chapter" data-level="" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#task-4---fit-a-classification-tree"><i class="fa fa-check"></i>Task 4 - Fit a classification tree</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#CART4"><i class="fa fa-check"></i><b>1.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="bagging.html"><a href="bagging.html"><i class="fa fa-check"></i><b>2</b> Bagging</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="bagging.html"><a href="bagging.html#BA1"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="bagging.html"><a href="bagging.html#BA2"><i class="fa fa-check"></i><b>2.2</b> Readings</a></li>
+<li class="chapter" data-level="2.3" data-path="bagging.html"><a href="bagging.html#BA3"><i class="fa fa-check"></i><b>2.3</b> Practice session</a>
+<ul>
+<li class="chapter" data-level="" data-path="bagging.html"><a href="bagging.html#task-1---use-bagging-to-build-a-classification-model"><i class="fa fa-check"></i>Task 1 - Use bagging to build a classification model</a></li>
+<li class="chapter" data-level="" data-path="bagging.html"><a href="bagging.html#task-2---compute-the-variable-importance"><i class="fa fa-check"></i>Task 2 - Compute the variable importance</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="bagging.html"><a href="bagging.html#BA4"><i class="fa fa-check"></i><b>2.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="random-forests.html"><a href="random-forests.html"><i class="fa fa-check"></i><b>3</b> Random Forests</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="random-forests.html"><a href="random-forests.html#RF1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="random-forests.html"><a href="random-forests.html#RF"><i class="fa fa-check"></i><b>3.2</b> Readings</a></li>
+<li class="chapter" data-level="3.3" data-path="random-forests.html"><a href="random-forests.html#RF3"><i class="fa fa-check"></i><b>3.3</b> Practice session</a>
+<ul>
+<li class="chapter" data-level="" data-path="random-forests.html"><a href="random-forests.html#task-1---build-a-random-forest-model"><i class="fa fa-check"></i>Task 1 - Build a Random Forest model</a></li>
+<li class="chapter" data-level="" data-path="random-forests.html"><a href="random-forests.html#task-2---compute-the-variables-importance"><i class="fa fa-check"></i>Task 2 - Compute the variables importance</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="random-forests.html"><a href="random-forests.html#RF4"><i class="fa fa-check"></i><b>3.4</b> Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><center><a href="https://canvas.sydney.edu.au/courses/74457/modules" style="color:364550" target="blank"><img src="usyd2.gif" width="60%"></a> <small>© A.Teixeira-Pinto, University of Sydney, 2021</small></center></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Machine Learning for Biostatistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="regression-and-classification-trees" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">1</span> Regression and Classification Trees<a href="regression-and-classification-trees.html#regression-and-classification-trees" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="RCT1" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Introduction<a href="regression-and-classification-trees.html#RCT1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Decision trees can be used for continuous outcomes - <em>regression trees</em> - or
+categorical ones - <em>classification trees</em>. Classification and regression trees
+are sometimes referred as <strong>CART</strong>.</p>
+<p><img src="tree.png" /></p>
+<p>The figure above represents a classification tree with several
+branches that partition the predictors
+space into disjoint regions according to some loss function. The
+predicted value for the outcome is found at the end of the branches.</p>
+<p>For <strong>regression trees</strong>, and similarly to the linear model, the predicted value
+will correspond to the mean of the region created by the partition. For a
+classification tree, the prediction will correspond to a category of the
+outcome.</p>
+<p>In regression trees, a common loss function used to
+generate the partition is:</p>
+<p><span class="math inline">\(\sum_{i \in R_1} (y_i - \bar{y}_{R_1})^2 + \sum_{i \in R_2} (y_i - \bar{y}_{R_2})^2\)</span></p>
+<p>where <span class="math inline">\(\bar{y}_{R_1}\)</span> and <span class="math inline">\(\bar{y}_{R_2}\)</span> are the means of the outcome for
+the regions created by splitting the region defined by a predictor into 2
+parts.</p>
+<p><img src="split.png" /></p>
+<p>The animation below shows different splits of
+the predictor and the correspondent prediction (mean of <span class="math inline">\(y\)</span>) - the two
+horizontal lines represent to the mean of the outcome
+in the two regions. The change in the loss function is computed in the top
+left corner:</p>
+<p><img src="tree.gif" /></p>
+<p>At each step, the predictor and respective cutoff that minimise the loss
+function is selected to split the branch.</p>
+<p><img src="treecutoff.png" /></p>
+<p>We can keep dividing the branches until each region has 1 data
+point (there can be more if there are ties). This of course will result in
+the tree overfitting the data. We would prefer a smaller tree that would
+result in a lower MSE. Cutting the branches of the tree to reduce its
+complexity and potentially leading to an improvement in the MSE is called
+<em>pruning</em>.</p>
+<p>Once again we will use the idea of penalisation to balance complexity and
+fitting.</p>
+<p><span class="math display">\[
+\sum_{m=1}^{|T|} \sum_{x_i \in R_m} (y_i - \bar{y}_{R_m})^2 + \alpha |T|, \\
+|T| \text{ is the number of nodes in the tree}
+\]</span></p>
+<p>The penalisation (tuning) parameter, <span class="math inline">\(\alpha\)</span>, controls the amount of pruning
+and it can be chosen by cross-validation.</p>
+<p><strong>Classification trees</strong> follow a similar logic but the outcome is categorical.
+We will have to consider a different loss function. Two common loss functions
+used in classification trees are:</p>
+<p><em>Gini index</em>: <span class="math inline">\(1-\sum_{k=1}^K{p_k^2}\)</span></p>
+<ul>
+<li>Favours larger partitions.</li>
+<li>Perfectly classified, Gini Index would be zero.</li>
+<li>Evenly distributed would be 1 – (1/# Classes).</li>
+</ul>
+<p><em>Information gain (entropy):</em> <span class="math inline">\(\sum_{k=1}^K{-p_k\log_2 p_k}\)</span></p>
+<ul>
+<li>Favours splits with small counts but many unique values</li>
+<li>Weights probability of class by log2 of the class probability</li>
+<li>Information Gain is the entropy of the parent node minus the entropy of the child nodes.</li>
+</ul>
+<iframe width="784" height="441" src="https://www.youtube.com/embed/7kWRogpXF2E" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
+<div id="CART2" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Readings<a href="regression-and-classification-trees.html#CART2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Read the following chapters of <em>An introduction to statistical learning</em>:</p>
+<ul>
+<li>8.1 The Basics of Decisions Trees</li>
+<li><a href="https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf">An Introduction to Recursive Partitioning Using the RPART Routines</a> - extra
+notes</li>
+</ul>
+</div>
+<div id="CART3" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Practice session<a href="regression-and-classification-trees.html#CART3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="task-1---grow-a-complete-regression-tree" class="section level3 unnumbered hasAnchor">
+<h3>Task 1 - Grow a complete regression tree<a href="regression-and-classification-trees.html#task-1---grow-a-complete-regression-tree" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Using the BMD.csv dataset,</p>
+<p>Using the <a href="https://www.dropbox.com/s/7wjsfdaf0wt2kg2/bmd.csv?dl=1">bmd.csv</a>,
+fit a tree to predict bone mineral density (BMD)
+based on AGE</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="regression-and-classification-trees.html#cb1-1" tabindex="-1"></a><span class="co">#libraries that we will need</span></span>
+<span id="cb1-2"><a href="regression-and-classification-trees.html#cb1-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1974</span>) <span class="co">#fix the random generator seed </span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="regression-and-classification-trees.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(rpart)  <span class="co">#library for CART</span></span>
+<span id="cb2-2"><a href="regression-and-classification-trees.html#cb2-2" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span></code></pre></div>
+<pre><code>## Warning: package &#39;rpart.plot&#39; was built under R version 4.6.1</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="regression-and-classification-trees.html#cb4-1" tabindex="-1"></a><span class="co">#read the dataset</span></span>
+<span id="cb4-2"><a href="regression-and-classification-trees.html#cb4-2" tabindex="-1"></a>bmd.data     <span class="ot">&lt;-</span> </span>
+<span id="cb4-3"><a href="regression-and-classification-trees.html#cb4-3" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/c6mhgatkotuze8o/bmd.csv?dl=1&quot;</span>, </span>
+<span id="cb4-4"><a href="regression-and-classification-trees.html#cb4-4" tabindex="-1"></a>           <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>The package <code>rpart</code> implements the classification and regression trees and the
+<code>rpart.plot</code> contains the tree plotting function. We will use the <code>rpart()</code>
+function to fit the tree, with some options to grow the complete tree</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="regression-and-classification-trees.html#cb5-1" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code></pre></div>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="regression-and-classification-trees.html#cb8-1" tabindex="-1"></a>t1 <span class="ot">&lt;-</span> <span class="fu">rpart</span>(bmd <span class="sc">~</span> age,</span>
+<span id="cb8-2"><a href="regression-and-classification-trees.html#cb8-2" tabindex="-1"></a>            <span class="at">data =</span> bmd.data, </span>
+<span id="cb8-3"><a href="regression-and-classification-trees.html#cb8-3" tabindex="-1"></a>            <span class="at">method =</span> <span class="st">&quot;anova&quot;</span>,         <span class="co">#indicates the outcome is continuous</span></span>
+<span id="cb8-4"><a href="regression-and-classification-trees.html#cb8-4" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">rpart.control</span>(</span>
+<span id="cb8-5"><a href="regression-and-classification-trees.html#cb8-5" tabindex="-1"></a>                       <span class="at">minsplit =</span> <span class="dv">1</span>,  <span class="co"># min number of observ for a split </span></span>
+<span id="cb8-6"><a href="regression-and-classification-trees.html#cb8-6" tabindex="-1"></a>                       <span class="at">minbucket =</span> <span class="dv">1</span>, <span class="co"># min nr of obs in terminal nodes</span></span>
+<span id="cb8-7"><a href="regression-and-classification-trees.html#cb8-7" tabindex="-1"></a>                       <span class="at">cp=</span><span class="dv">0</span>)          <span class="co">#decrease in complex for a split </span></span>
+<span id="cb8-8"><a href="regression-and-classification-trees.html#cb8-8" tabindex="-1"></a>)</span>
+<span id="cb8-9"><a href="regression-and-classification-trees.html#cb8-9" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="regression-and-classification-trees.html#cb8-10" tabindex="-1"></a><span class="co">#the rpart.plot() may take a long time to plot</span></span>
+<span id="cb8-11"><a href="regression-and-classification-trees.html#cb8-11" tabindex="-1"></a><span class="co">#the complete tree</span></span>
+<span id="cb8-12"><a href="regression-and-classification-trees.html#cb8-12" tabindex="-1"></a><span class="co">#if you cannot run it, just try plot(t1); text(t1, pretty=1)</span></span>
+<span id="cb8-13"><a href="regression-and-classification-trees.html#cb8-13" tabindex="-1"></a><span class="co">#and you will see just the structure of the tree</span></span>
+<span id="cb8-14"><a href="regression-and-classification-trees.html#cb8-14" tabindex="-1"></a><span class="fu">rpart.plot</span>(t1)     </span></code></pre></div>
+<pre><code>## Warning: labs do not fit even at cex 0.15, there may be some overplotting</code></pre>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
+<p>We can now prune the tree using a limit for the complexity parameter <span class="math inline">\(cp\)</span>.
+This will indicate that only a split with CP higher than the limit is worth it.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="regression-and-classification-trees.html#cb10-1" tabindex="-1"></a><span class="fu">printcp</span>(t1)                      <span class="co">#CP for the complete tree</span></span></code></pre></div>
+<pre><code>## 
+## Regression tree:
+## rpart(formula = bmd ~ age, data = bmd.data, method = &quot;anova&quot;, 
+##     control = rpart.control(minsplit = 1, minbucket = 1, cp = 0))
+## 
+## Variables actually used in tree construction:
+## [1] age
+## 
+## Root node error: 4.659/169 = 0.027568
+## 
+## n= 169 
+## 
+##             CP nsplit  rel error  xerror    xstd
+## 1   1.5011e-01      0 1.0000e+00 1.01765 0.11147
+## 2   2.2857e-02      1 8.4989e-01 0.89504 0.11530
+## 3   2.1625e-02      2 8.2703e-01 1.18928 0.15101
+## 4   2.0621e-02      8 6.9728e-01 1.21668 0.15171
+## 5   1.7896e-02     11 6.2374e-01 1.29781 0.16189
+## 6   1.6691e-02     13 5.8795e-01 1.29128 0.16179
+## 7   1.3855e-02     14 5.7126e-01 1.27044 0.15896
+## 8   1.2133e-02     15 5.5740e-01 1.28841 0.15934
+## 9   1.1410e-02     16 5.4527e-01 1.35628 0.16661
+## 10  1.0975e-02     17 5.3386e-01 1.40868 0.17009
+## 11  1.0843e-02     21 4.8996e-01 1.40868 0.17009
+## 12  1.0550e-02     26 4.3574e-01 1.42386 0.17023
+## 13  1.0318e-02     27 4.2519e-01 1.39577 0.16607
+## 14  9.5921e-03     28 4.1488e-01 1.43436 0.17090
+## 15  9.5636e-03     29 4.0528e-01 1.43302 0.17121
+## 16  9.4801e-03     35 3.4511e-01 1.43302 0.17121
+## 17  8.8498e-03     37 3.2615e-01 1.45697 0.17171
+## 18  8.7833e-03     38 3.1730e-01 1.46385 0.17148
+## 19  8.6510e-03     39 3.0851e-01 1.46385 0.17148
+## 20  8.1753e-03     42 2.8164e-01 1.51318 0.17653
+## 21  8.1257e-03     43 2.7347e-01 1.50180 0.17666
+## 22  7.9341e-03     45 2.5722e-01 1.49873 0.17666
+## 23  6.8660e-03     46 2.4928e-01 1.48046 0.17148
+## 24  6.2708e-03     47 2.4242e-01 1.52337 0.17402
+## 25  5.9903e-03     52 2.1106e-01 1.51988 0.16810
+## 26  5.9250e-03     54 1.9908e-01 1.53343 0.16805
+## 27  5.9229e-03     56 1.8723e-01 1.53729 0.16825
+## 28  5.8272e-03     57 1.8131e-01 1.53729 0.16825
+## 29  5.4523e-03     58 1.7548e-01 1.54174 0.16837
+## 30  5.0336e-03     59 1.7003e-01 1.57444 0.16855
+## 31  4.9113e-03     60 1.6500e-01 1.57002 0.16862
+## 32  4.6286e-03     63 1.5026e-01 1.56988 0.17224
+## 33  4.5364e-03     64 1.4563e-01 1.62250 0.17986
+## 34  4.3127e-03     66 1.3656e-01 1.62250 0.17986
+## 35  4.3104e-03     68 1.2794e-01 1.62250 0.17986
+## 36  4.2807e-03     69 1.2363e-01 1.62704 0.17972
+## 37  3.9800e-03     71 1.1506e-01 1.60725 0.17771
+## 38  3.6958e-03     72 1.1108e-01 1.62131 0.17727
+## 39  3.1052e-03     75 9.9997e-02 1.61935 0.17755
+## 40  3.0222e-03     76 9.6892e-02 1.62050 0.17739
+## 41  2.7468e-03     78 9.0848e-02 1.61019 0.17499
+## 42  2.6775e-03     79 8.8101e-02 1.61092 0.17494
+## 43  2.5828e-03     81 8.2746e-02 1.62495 0.17811
+## 44  2.5347e-03     82 8.0163e-02 1.62522 0.17810
+## 45  2.4665e-03     83 7.7628e-02 1.60648 0.17644
+## 46  2.4609e-03     84 7.5162e-02 1.61453 0.17668
+## 47  2.4243e-03     86 7.0240e-02 1.61426 0.17669
+## 48  2.4140e-03     87 6.7816e-02 1.61381 0.17671
+## 49  2.3335e-03     88 6.5402e-02 1.61381 0.17671
+## 50  2.3321e-03     89 6.3068e-02 1.62015 0.17692
+## 51  2.2471e-03     91 5.8404e-02 1.62341 0.17707
+## 52  2.1072e-03     92 5.6157e-02 1.62288 0.17563
+## 53  2.0870e-03     93 5.4050e-02 1.64493 0.17924
+## 54  2.0451e-03    100 3.7574e-02 1.64696 0.17917
+## 55  1.9386e-03    101 3.5529e-02 1.64164 0.17923
+## 56  1.8005e-03    102 3.3590e-02 1.64927 0.17891
+## 57  1.3686e-03    103 3.1790e-02 1.65874 0.17933
+## 58  1.3438e-03    107 2.6306e-02 1.66822 0.17937
+## 59  1.2138e-03    108 2.4962e-02 1.66544 0.17949
+## 60  1.1334e-03    110 2.2535e-02 1.65286 0.17945
+## 61  1.0723e-03    111 2.1401e-02 1.66121 0.17957
+## 62  1.0605e-03    113 1.9257e-02 1.66661 0.17950
+## 63  1.0035e-03    114 1.8196e-02 1.67577 0.18096
+## 64  9.4464e-04    115 1.7193e-02 1.68613 0.18094
+## 65  7.5924e-04    116 1.6248e-02 1.69531 0.18176
+## 66  7.5061e-04    118 1.4730e-02 1.70108 0.18176
+## 67  7.4468e-04    119 1.3979e-02 1.70117 0.18175
+## 68  7.3755e-04    120 1.3234e-02 1.70117 0.18175
+## 69  7.1811e-04    121 1.2497e-02 1.70013 0.18179
+## 70  7.1728e-04    122 1.1779e-02 1.70013 0.18179
+## 71  7.1635e-04    123 1.1061e-02 1.70013 0.18179
+## 72  7.1110e-04    124 1.0345e-02 1.70013 0.18179
+## 73  6.6133e-04    125 9.6340e-03 1.70245 0.18178
+## 74  6.5629e-04    126 8.9727e-03 1.69886 0.18200
+## 75  6.5461e-04    127 8.3164e-03 1.69886 0.18200
+## 76  5.8428e-04    128 7.6618e-03 1.71271 0.18347
+## 77  5.1243e-04    129 7.0775e-03 1.71597 0.18319
+## 78  4.7746e-04    130 6.5651e-03 1.71423 0.18334
+## 79  4.7460e-04    131 6.0876e-03 1.71405 0.18335
+## 80  4.5064e-04    132 5.6130e-03 1.71288 0.18339
+## 81  4.3443e-04    133 5.1624e-03 1.71219 0.18323
+## 82  4.0723e-04    134 4.7279e-03 1.71290 0.18328
+## 83  4.0723e-04    135 4.3207e-03 1.71573 0.18329
+## 84  4.0195e-04    136 3.9135e-03 1.71573 0.18329
+## 85  3.6728e-04    137 3.5115e-03 1.71298 0.18333
+## 86  3.3896e-04    138 3.1442e-03 1.71664 0.18344
+## 87  3.1877e-04    139 2.8053e-03 1.71664 0.18344
+## 88  3.1811e-04    140 2.4865e-03 1.71680 0.18344
+## 89  2.7369e-04    141 2.1684e-03 1.71482 0.18318
+## 90  2.0990e-04    142 1.8947e-03 1.71456 0.18320
+## 91  1.8394e-04    143 1.6848e-03 1.71441 0.18311
+## 92  1.8306e-04    144 1.5008e-03 1.71669 0.18317
+## 93  1.8237e-04    145 1.3178e-03 1.71669 0.18317
+## 94  1.3863e-04    146 1.1354e-03 1.71682 0.18316
+## 95  1.1758e-04    148 8.5816e-04 1.71809 0.18298
+## 96  9.2318e-05    149 7.4058e-04 1.71952 0.18324
+## 97  9.1614e-05    150 6.4826e-04 1.71872 0.18323
+## 98  8.9016e-05    152 4.6503e-04 1.71872 0.18323
+## 99  8.1752e-05    153 3.7601e-04 1.71872 0.18323
+## 100 5.6280e-05    154 2.9426e-04 1.71817 0.18325
+## 101 5.0071e-05    155 2.3798e-04 1.72019 0.18319
+## 102 4.1650e-05    156 1.8791e-04 1.71880 0.18322
+## 103 2.7818e-05    157 1.4626e-04 1.71833 0.18317
+## 104 2.2876e-05    158 1.1844e-04 1.71756 0.18313
+## 105 1.7583e-05    159 9.5567e-05 1.71683 0.18313
+## 106 1.5454e-05    160 7.7983e-05 1.71756 0.18315
+## 107 1.3947e-05    161 6.2529e-05 1.71734 0.18318
+## 108 1.3462e-05    162 4.8582e-05 1.71734 0.18318
+## 109 1.2059e-05    163 3.5120e-05 1.71677 0.18317
+## 110 1.2058e-05    164 2.3061e-05 1.71677 0.18317
+## 111 6.8126e-06    165 1.1003e-05 1.71677 0.18317
+## 112 2.4728e-06    166 4.1899e-06 1.71691 0.18318
+## 113 1.7171e-06    167 1.7171e-06 1.71682 0.18318
+## 114 0.0000e+00    168 0.0000e+00 1.71656 0.18312</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="regression-and-classification-trees.html#cb12-1" tabindex="-1"></a>prune.t1 <span class="ot">&lt;-</span> <span class="fu">prune</span>(t1, <span class="at">cp=</span><span class="fl">0.02</span>)   <span class="co">#prune the tree with cp=0.02</span></span>
+<span id="cb12-2"><a href="regression-and-classification-trees.html#cb12-2" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="regression-and-classification-trees.html#cb12-3" tabindex="-1"></a><span class="fu">printcp</span>(prune.t1)</span></code></pre></div>
+<pre><code>## 
+## Regression tree:
+## rpart(formula = bmd ~ age, data = bmd.data, method = &quot;anova&quot;, 
+##     control = rpart.control(minsplit = 1, minbucket = 1, cp = 0))
+## 
+## Variables actually used in tree construction:
+## [1] age
+## 
+## Root node error: 4.659/169 = 0.027568
+## 
+## n= 169 
+## 
+##         CP nsplit rel error  xerror    xstd
+## 1 0.150111      0   1.00000 1.01765 0.11147
+## 2 0.022857      1   0.84989 0.89504 0.11530
+## 3 0.021625      2   0.82703 1.18928 0.15101
+## 4 0.020621      8   0.69728 1.21668 0.15171
+## 5 0.020000     11   0.62374 1.29781 0.16189</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="regression-and-classification-trees.html#cb14-1" tabindex="-1"></a><span class="fu">rpart.plot</span>(prune.t1)              <span class="co">#pruned tree   </span></span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
+<p><strong>TRY IT YOURSELF:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Get a tree for the problem above but with the defaults of <code>rpart.control()</code>.</li>
+</ol>
+<details>
+<summary>
+See the solution code
+</summary>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="regression-and-classification-trees.html#cb15-1" tabindex="-1"></a>?rpart.control     <span class="co">#see the defaults</span></span>
+<span id="cb15-2"><a href="regression-and-classification-trees.html#cb15-2" tabindex="-1"></a>t1.default <span class="ot">&lt;-</span> <span class="fu">rpart</span>(bmd <span class="sc">~</span> age,</span>
+<span id="cb15-3"><a href="regression-and-classification-trees.html#cb15-3" tabindex="-1"></a>                    <span class="at">data =</span> bmd.data,  </span>
+<span id="cb15-4"><a href="regression-and-classification-trees.html#cb15-4" tabindex="-1"></a>                    <span class="at">method =</span> <span class="st">&quot;anova&quot;</span>) </span>
+<span id="cb15-5"><a href="regression-and-classification-trees.html#cb15-5" tabindex="-1"></a><span class="fu">rpart.plot</span>(t1.default)</span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
+</details>
+<p>
+<p>
+<ol start="2" style="list-style-type: decimal">
+<li>Use the <code>caret</code> package to fit the <code>prune.t1</code> tree</li>
+</ol>
+<details>
+<summary>
+See the solution code
+</summary>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="regression-and-classification-trees.html#cb16-1" tabindex="-1"></a>trctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="at">number  =</span> <span class="dv">10</span>)</span>
+<span id="cb16-2"><a href="regression-and-classification-trees.html#cb16-2" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="regression-and-classification-trees.html#cb16-3" tabindex="-1"></a><span class="co">#to get the same tree we will fix the tuning parameter cp</span></span>
+<span id="cb16-4"><a href="regression-and-classification-trees.html#cb16-4" tabindex="-1"></a><span class="co">#to be 0.02</span></span>
+<span id="cb16-5"><a href="regression-and-classification-trees.html#cb16-5" tabindex="-1"></a>t1.caret  <span class="ot">&lt;-</span>  <span class="fu">train</span>(bmd <span class="sc">~</span> age, </span>
+<span id="cb16-6"><a href="regression-and-classification-trees.html#cb16-6" tabindex="-1"></a>                        <span class="at">data =</span> bmd.data, </span>
+<span id="cb16-7"><a href="regression-and-classification-trees.html#cb16-7" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">&quot;rpart&quot;</span>,</span>
+<span id="cb16-8"><a href="regression-and-classification-trees.html#cb16-8" tabindex="-1"></a>                        <span class="at">trControl=</span>trctrl,</span>
+<span id="cb16-9"><a href="regression-and-classification-trees.html#cb16-9" tabindex="-1"></a>                        <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">minsplit =</span> <span class="dv">1</span>, </span>
+<span id="cb16-10"><a href="regression-and-classification-trees.html#cb16-10" tabindex="-1"></a>                                                <span class="at">minbucket =</span> <span class="dv">1</span>, </span>
+<span id="cb16-11"><a href="regression-and-classification-trees.html#cb16-11" tabindex="-1"></a>                                                <span class="at">cp=</span><span class="fl">0.02</span>),</span>
+<span id="cb16-12"><a href="regression-and-classification-trees.html#cb16-12" tabindex="-1"></a>                        <span class="at">tuneGrid =</span> <span class="fu">expand.grid</span>(<span class="at">cp=</span><span class="fl">0.02</span>))</span>
+<span id="cb16-13"><a href="regression-and-classification-trees.html#cb16-13" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="regression-and-classification-trees.html#cb16-14" tabindex="-1"></a><span class="fu">rpart.plot</span>(t1.caret<span class="sc">$</span>finalModel)</span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
+</details>
+<p>
+<p>
+</div>
+<div id="task-2---make-predictions-from-a-tree" class="section level3 unnumbered hasAnchor">
+<h3>Task 2 - Make predictions from a tree<a href="regression-and-classification-trees.html#task-2---make-predictions-from-a-tree" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s use the pruned tree from task 1 (<code>pruned.t1</code>) to predict the BMD for an
+individual 70 years old and compare it with the predictions from a linear
+model</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="regression-and-classification-trees.html#cb17-1" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(bmd <span class="sc">~</span> age,</span>
+<span id="cb17-2"><a href="regression-and-classification-trees.html#cb17-2" tabindex="-1"></a>           <span class="at">data =</span> bmd.data)</span>
+<span id="cb17-3"><a href="regression-and-classification-trees.html#cb17-3" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="regression-and-classification-trees.html#cb17-4" tabindex="-1"></a><span class="fu">predict</span>(prune.t1,                       <span class="co">#prediction using the tree</span></span>
+<span id="cb17-5"><a href="regression-and-classification-trees.html#cb17-5" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">age=</span><span class="dv">70</span>))</span>
+<span id="cb17-6"><a href="regression-and-classification-trees.html#cb17-6" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="regression-and-classification-trees.html#cb17-7" tabindex="-1"></a><span class="fu">predict</span>(lm1,                           <span class="co">#prediction using the linear model</span></span>
+<span id="cb17-8"><a href="regression-and-classification-trees.html#cb17-8" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">age=</span><span class="dv">70</span>))</span></code></pre></div>
+<p>We now want to plot the predictions from the tree for ages 40 through 90
+together with the predictions from the linear model</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="regression-and-classification-trees.html#cb18-1" tabindex="-1"></a>pred.tree <span class="ot">&lt;-</span> <span class="fu">predict</span>(prune.t1,                      </span>
+<span id="cb18-2"><a href="regression-and-classification-trees.html#cb18-2" tabindex="-1"></a>                     <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">age=</span><span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">90</span>,<span class="dv">1</span>)))</span>
+<span id="cb18-3"><a href="regression-and-classification-trees.html#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="regression-and-classification-trees.html#cb18-4" tabindex="-1"></a>pred.lm   <span class="ot">&lt;-</span><span class="fu">predict</span>(lm1,                          </span>
+<span id="cb18-5"><a href="regression-and-classification-trees.html#cb18-5" tabindex="-1"></a>                     <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">age=</span><span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">90</span>,<span class="dv">1</span>)))</span>
+<span id="cb18-6"><a href="regression-and-classification-trees.html#cb18-6" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="regression-and-classification-trees.html#cb18-7" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">90</span>,<span class="dv">1</span>), pred.tree , </span>
+<span id="cb18-8"><a href="regression-and-classification-trees.html#cb18-8" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>, </span>
+<span id="cb18-9"><a href="regression-and-classification-trees.html#cb18-9" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;age&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;bmd&quot;</span>)</span>
+<span id="cb18-10"><a href="regression-and-classification-trees.html#cb18-10" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="regression-and-classification-trees.html#cb18-11" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">seq</span>(<span class="dv">40</span>,<span class="dv">90</span>,<span class="dv">1</span>), pred.lm, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb18-12"><a href="regression-and-classification-trees.html#cb18-12" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="regression-and-classification-trees.html#cb18-13" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">45</span>, <span class="fl">1.2</span>, <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), </span>
+<span id="cb18-14"><a href="regression-and-classification-trees.html#cb18-14" tabindex="-1"></a>       <span class="fu">c</span>(<span class="st">&quot;tree&quot;</span>, <span class="st">&quot;linear model&quot;</span>), </span>
+<span id="cb18-15"><a href="regression-and-classification-trees.html#cb18-15" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;red&quot;</span>))</span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" /></p>
+</div>
+<div id="task-3---fit-a-tree-using-cross-validation" class="section level3 unnumbered hasAnchor">
+<h3>Task 3 - Fit a tree using Cross-validation<a href="regression-and-classification-trees.html#task-3---fit-a-tree-using-cross-validation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s fit now a tree to predict bone mineral density (BMD) based on AGE,
+SEX and BMI (BMI has to be computed) and compute the MSE.</p>
+<p>We will use the <code>caret</code> package with <code>method="rpart"</code>. Notice that the
+<code>caret</code> will prune the tree based on the cross-validated <code>cp</code>.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="regression-and-classification-trees.html#cb19-1" tabindex="-1"></a><span class="co">#compute BMI</span></span>
+<span id="cb19-2"><a href="regression-and-classification-trees.html#cb19-2" tabindex="-1"></a>bmd.data<span class="sc">$</span>bmi <span class="ot">&lt;-</span> bmd.data<span class="sc">$</span>weight_kg <span class="sc">/</span> (bmd.data<span class="sc">$</span>height_cm<span class="sc">/</span><span class="dv">100</span>)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb19-3"><a href="regression-and-classification-trees.html#cb19-3" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="regression-and-classification-trees.html#cb19-4" tabindex="-1"></a>trctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="at">number =</span> <span class="dv">10</span>, <span class="at">repeats =</span> <span class="dv">10</span>)</span>
+<span id="cb19-5"><a href="regression-and-classification-trees.html#cb19-5" tabindex="-1"></a>t2.caret  <span class="ot">&lt;-</span>  <span class="fu">train</span>(bmd <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> bmi, </span>
+<span id="cb19-6"><a href="regression-and-classification-trees.html#cb19-6" tabindex="-1"></a>                        <span class="at">data =</span> bmd.data, </span>
+<span id="cb19-7"><a href="regression-and-classification-trees.html#cb19-7" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">&quot;rpart&quot;</span>,</span>
+<span id="cb19-8"><a href="regression-and-classification-trees.html#cb19-8" tabindex="-1"></a>                        <span class="at">trControl=</span>trctrl,</span>
+<span id="cb19-9"><a href="regression-and-classification-trees.html#cb19-9" tabindex="-1"></a>                        <span class="at">tuneGrid =</span> <span class="fu">expand.grid</span>(<span class="at">cp=</span><span class="fu">seq</span>(<span class="fl">0.001</span>, <span class="fl">0.1</span>, <span class="fl">0.001</span>))</span>
+<span id="cb19-10"><a href="regression-and-classification-trees.html#cb19-10" tabindex="-1"></a>                        )</span>
+<span id="cb19-11"><a href="regression-and-classification-trees.html#cb19-11" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="regression-and-classification-trees.html#cb19-12" tabindex="-1"></a><span class="co">#Plot the RMSE versus the CP</span></span>
+<span id="cb19-13"><a href="regression-and-classification-trees.html#cb19-13" tabindex="-1"></a><span class="fu">plot</span>(t2.caret)</span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-9-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="regression-and-classification-trees.html#cb20-1" tabindex="-1"></a><span class="co">#Plot the tree with the optimal CP</span></span>
+<span id="cb20-2"><a href="regression-and-classification-trees.html#cb20-2" tabindex="-1"></a><span class="fu">rpart.plot</span>(t2.caret<span class="sc">$</span>finalModel)</span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-9-2.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="regression-and-classification-trees.html#cb21-1" tabindex="-1"></a>t2.caret<span class="sc">$</span>finalModel<span class="sc">$</span>cptable</span></code></pre></div>
+<pre><code>##           CP nsplit rel error
+## 1 0.26960125      0 1.0000000
+## 2 0.07577601      1 0.7303988
+## 3 0.06448418      2 0.6546227
+## 4 0.05400352      3 0.5901386
+## 5 0.02500000      4 0.5361350</code></pre>
+<p>We can compare the RMSE and R2 of the tree above with the linear model</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="regression-and-classification-trees.html#cb23-1" tabindex="-1"></a>trctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="at">number =</span> <span class="dv">5</span>, <span class="at">repeats =</span> <span class="dv">10</span>)</span>
+<span id="cb23-2"><a href="regression-and-classification-trees.html#cb23-2" tabindex="-1"></a>lm2.caret<span class="ot">&lt;-</span>  <span class="fu">train</span>(bmd <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> bmi, </span>
+<span id="cb23-3"><a href="regression-and-classification-trees.html#cb23-3" tabindex="-1"></a>                        <span class="at">data =</span> bmd.data, </span>
+<span id="cb23-4"><a href="regression-and-classification-trees.html#cb23-4" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>,</span>
+<span id="cb23-5"><a href="regression-and-classification-trees.html#cb23-5" tabindex="-1"></a>                        <span class="at">trControl=</span>trctrl</span>
+<span id="cb23-6"><a href="regression-and-classification-trees.html#cb23-6" tabindex="-1"></a>                        )</span>
+<span id="cb23-7"><a href="regression-and-classification-trees.html#cb23-7" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="regression-and-classification-trees.html#cb23-8" tabindex="-1"></a>lm2.caret<span class="sc">$</span>results</span></code></pre></div>
+<pre><code>##   intercept      RMSE  Rsquared       MAE     RMSESD RsquaredSD      MAESD
+## 1      TRUE 0.1383368 0.3292804 0.1046154 0.01878148  0.1145405 0.01176567</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="regression-and-classification-trees.html#cb25-1" tabindex="-1"></a><span class="co">#extracts the row with the RMSE and R2 from the table of results</span></span>
+<span id="cb25-2"><a href="regression-and-classification-trees.html#cb25-2" tabindex="-1"></a><span class="co">#corresponding to the cp with lowest RMSE  (best tune)</span></span>
+<span id="cb25-3"><a href="regression-and-classification-trees.html#cb25-3" tabindex="-1"></a>t2.caret<span class="sc">$</span>results[t2.caret<span class="sc">$</span>results<span class="sc">$</span>cp<span class="sc">==</span>t2.caret<span class="sc">$</span>bestTune[<span class="dv">1</span>,<span class="dv">1</span>], ]</span></code></pre></div>
+<pre><code>##       cp     RMSE  Rsquared      MAE     RMSESD RsquaredSD      MAESD
+## 25 0.025 0.134802 0.3819951 0.104164 0.02665188  0.1769088 0.01977811</code></pre>
+</div>
+<div id="task-4---fit-a-classification-tree" class="section level3 unnumbered hasAnchor">
+<h3>Task 4 - Fit a classification tree<a href="regression-and-classification-trees.html#task-4---fit-a-classification-tree" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <a href="https://www.dropbox.com/s/da3by5vuzkv77xi/SBI.csv?dl=1">SBI.csv</a> dataset
+contains the information of more than 2300 children that attended the
+emergency services with fever and were tested for serious bacterial infection.
+The variable <strong>sbi</strong> has
+4 categories: Not Applicable(no infection) / UTI / Pneum / Bact</p>
+<p>Create a new variable sbi.bin that identifies if a child was diagnosed
+or not with serious bacterial infection.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="regression-and-classification-trees.html#cb27-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1999</span>)</span>
+<span id="cb27-2"><a href="regression-and-classification-trees.html#cb27-2" tabindex="-1"></a>sbi.data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/wg32uj43fsy9yvd/SBI.csv?dl=1&quot;</span>)</span>
+<span id="cb27-3"><a href="regression-and-classification-trees.html#cb27-3" tabindex="-1"></a><span class="fu">summary</span>(sbi.data)</span></code></pre></div>
+<pre><code>##        X                id          fever_hours           age               sex            wcc                prevAB    
+##  Min.   :   1.0   Min.   :   495   Min.   :   0.00   Min.   :0.010   Length   :2348   Min.   : 0.2368   Length   :2348  
+##  1st Qu.: 587.8   1st Qu.:133039   1st Qu.:  24.00   1st Qu.:0.760   N.unique :   2   1st Qu.: 7.9000   N.unique :   2  
+##  Median :1174.5   Median :160016   Median :  48.00   Median :1.525   N.blank  :   0   Median :11.6000   N.blank  :   0  
+##  Mean   :1174.5   Mean   :153698   Mean   :  80.06   Mean   :1.836   Min.nchar:   1   Mean   :12.6431   Min.nchar:   2  
+##  3rd Qu.:1761.2   3rd Qu.:196030   3rd Qu.:  78.00   3rd Qu.:2.752   Max.nchar:   1   3rd Qu.:16.1000   Max.nchar:   3  
+##  Max.   :2348.0   Max.   :229986   Max.   :3360.00   Max.   :4.990                    Max.   :58.7000                   
+##         sbi            pct                 crp        
+##  Length   :2348   Min.   :8.647e-03   Min.   :  0.00  
+##  N.unique :   4   1st Qu.:1.600e-01   1st Qu.: 11.83  
+##  N.blank  :   0   Median :7.600e-01   Median : 30.97  
+##  Min.nchar:   3   Mean   :3.744e+00   Mean   : 48.41  
+##  Max.nchar:  13   3rd Qu.:4.620e+00   3rd Qu.: 66.20  
+##                   Max.   :1.565e+02   Max.   :429.90</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="regression-and-classification-trees.html#cb29-1" tabindex="-1"></a><span class="co"># Create a binary variable based on &quot;sbi&quot;</span></span>
+<span id="cb29-2"><a href="regression-and-classification-trees.html#cb29-2" tabindex="-1"></a>sbi.data<span class="sc">$</span>sbi.bin <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(sbi.data<span class="sc">$</span>sbi <span class="sc">==</span> <span class="st">&quot;NotApplicable&quot;</span>, <span class="st">&quot;NOSBI&quot;</span>, <span class="st">&quot;SBI&quot;</span>))</span>
+<span id="cb29-3"><a href="regression-and-classification-trees.html#cb29-3" tabindex="-1"></a><span class="fu">table</span>(sbi.data<span class="sc">$</span>sbi, sbi.data<span class="sc">$</span>sbi.bin)</span></code></pre></div>
+<pre><code>##                
+##                 NOSBI  SBI
+##   Bact              0   34
+##   NotApplicable  1752    0
+##   Pneu              0  251
+##   UTI               0  311</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="regression-and-classification-trees.html#cb31-1" tabindex="-1"></a><span class="co">#sbi.data.sub &lt;- sbi.data[,c(&quot;sbi.bin&quot;,&quot;fever_hours&quot;,&quot;age&quot;,&quot;sex&quot;,&quot;wcc&quot;,&quot;prevAB&quot;,&quot;pct&quot;,&quot;crp&quot;)]</span></span></code></pre></div>
+<p>Now, build a classification tree to predict if a child has serious bacterial
+infection using <strong>fever_hours</strong>, <strong>wcc</strong>, <strong>age</strong>, <strong>prevAB</strong>, <strong>pct</strong>, and <strong>crp</strong></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="regression-and-classification-trees.html#cb32-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb32-2"><a href="regression-and-classification-trees.html#cb32-2" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data,</span>
+<span id="cb32-3"><a href="regression-and-classification-trees.html#cb32-3" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;class&quot;</span></span>
+<span id="cb32-4"><a href="regression-and-classification-trees.html#cb32-4" tabindex="-1"></a>                  )</span>
+<span id="cb32-5"><a href="regression-and-classification-trees.html#cb32-5" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="regression-and-classification-trees.html#cb32-6" tabindex="-1"></a><span class="fu">plotcp</span>(sbi.tree)</span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-12-1.png" alt="" width="672" /></p>
+<p>Looking at the error associated with different values of <em>CP</em> using the default
+options, it is not
+clear that we have the range that gives us the lowest error. We will use
+<code>part.control</code> to extend the tree and then prune it.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="regression-and-classification-trees.html#cb33-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb33-2"><a href="regression-and-classification-trees.html#cb33-2" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data,</span>
+<span id="cb33-3"><a href="regression-and-classification-trees.html#cb33-3" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;class&quot;</span>,</span>
+<span id="cb33-4"><a href="regression-and-classification-trees.html#cb33-4" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(</span>
+<span id="cb33-5"><a href="regression-and-classification-trees.html#cb33-5" tabindex="-1"></a>                       <span class="at">minsplit =</span> <span class="dv">5</span>,  <span class="co"># min number of observ for a split </span></span>
+<span id="cb33-6"><a href="regression-and-classification-trees.html#cb33-6" tabindex="-1"></a>                       <span class="at">minbucket =</span> <span class="dv">5</span>, <span class="co"># min nr of obs in terminal nodes</span></span>
+<span id="cb33-7"><a href="regression-and-classification-trees.html#cb33-7" tabindex="-1"></a>                       <span class="at">cp=</span><span class="fl">0.001</span>)   </span>
+<span id="cb33-8"><a href="regression-and-classification-trees.html#cb33-8" tabindex="-1"></a>                  )</span>
+<span id="cb33-9"><a href="regression-and-classification-trees.html#cb33-9" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="regression-and-classification-trees.html#cb33-10" tabindex="-1"></a><span class="fu">plotcp</span>(sbi.tree)</span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-13-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="regression-and-classification-trees.html#cb34-1" tabindex="-1"></a><span class="fu">printcp</span>(sbi.tree)</span></code></pre></div>
+<pre><code>## 
+## Classification tree:
+## rpart(formula = sbi.bin ~ fever_hours + age + sex + wcc + prevAB + 
+##     pct + crp, data = sbi.data, method = &quot;class&quot;, control = rpart.control(minsplit = 5, 
+##     minbucket = 5, cp = 0.001))
+## 
+## Variables actually used in tree construction:
+## [1] age         crp         fever_hours pct         prevAB      sex         wcc        
+## 
+## Root node error: 596/2348 = 0.25383
+## 
+## n= 2348 
+## 
+##           CP nsplit rel error  xerror     xstd
+## 1  0.0201342      0   1.00000 1.00000 0.035383
+## 2  0.0167785      4   0.91611 1.01174 0.035519
+## 3  0.0117450      5   0.89933 1.00000 0.035383
+## 4  0.0083893      6   0.88758 1.00503 0.035442
+## 5  0.0075503      9   0.86242 1.00168 0.035403
+## 6  0.0072707     11   0.84732 1.00168 0.035403
+## 7  0.0067114     14   0.82550 1.00168 0.035403
+## 8  0.0058725     15   0.81879 0.99329 0.035304
+## 9  0.0050336     19   0.79530 0.97819 0.035125
+## 10 0.0041946     21   0.78523 0.97987 0.035145
+## 11 0.0039150     25   0.76846 0.98993 0.035265
+## 12 0.0033557     28   0.75671 0.98490 0.035205
+## 13 0.0025168     34   0.73490 1.00000 0.035383
+## 14 0.0022371     36   0.72987 1.03020 0.035728
+## 15 0.0020973     39   0.72315 1.06376 0.036096
+## 16 0.0020134     62   0.66946 1.06376 0.036096
+## 17 0.0018876     67   0.65940 1.06376 0.036096
+## 18 0.0016779     80   0.62919 1.10738 0.036548
+## 19 0.0013982     97   0.60067 1.12248 0.036698
+## 20 0.0011186    111   0.58054 1.14430 0.036909
+## 21 0.0010000    114   0.57718 1.14765 0.036941</code></pre>
+<p>If you have the same <code>set.seed(1999)</code> you should get <code>cp = 0.0050336</code> as the
+one with lowest error. We can now prune the tree accordingly.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="regression-and-classification-trees.html#cb36-1" tabindex="-1"></a>sbi.prune.tree <span class="ot">&lt;-</span> <span class="fu">prune</span>(sbi.tree, <span class="at">cp =</span> <span class="fl">0.0050336</span>)</span>
+<span id="cb36-2"><a href="regression-and-classification-trees.html#cb36-2" tabindex="-1"></a><span class="fu">rpart.plot</span>(sbi.prune.tree)</span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-14-1.png" alt="" width="672" /></p>
+<p><strong>TRY IT YOURSELF:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Use the <code>caret</code> package to fit the tree above.</li>
+</ol>
+<details>
+<summary>
+See the solution code
+</summary>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="regression-and-classification-trees.html#cb37-1" tabindex="-1"></a>trctrl      <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, </span>
+<span id="cb37-2"><a href="regression-and-classification-trees.html#cb37-2" tabindex="-1"></a>                            <span class="at">number =</span> <span class="dv">5</span>, </span>
+<span id="cb37-3"><a href="regression-and-classification-trees.html#cb37-3" tabindex="-1"></a>                            <span class="at">repeats =</span> <span class="dv">10</span>,</span>
+<span id="cb37-4"><a href="regression-and-classification-trees.html#cb37-4" tabindex="-1"></a>                             <span class="at">classProbs =</span> <span class="cn">TRUE</span>,  </span>
+<span id="cb37-5"><a href="regression-and-classification-trees.html#cb37-5" tabindex="-1"></a>                            <span class="at">summaryFunction =</span> twoClassSummary)</span>
+<span id="cb37-6"><a href="regression-and-classification-trees.html#cb37-6" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="regression-and-classification-trees.html#cb37-7" tabindex="-1"></a>tree.sbi    <span class="ot">&lt;-</span> <span class="fu">train</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb37-8"><a href="regression-and-classification-trees.html#cb37-8" tabindex="-1"></a>                            <span class="at">data =</span> sbi.data,</span>
+<span id="cb37-9"><a href="regression-and-classification-trees.html#cb37-9" tabindex="-1"></a>                            <span class="at">method =</span> <span class="st">&quot;rpart&quot;</span>,</span>
+<span id="cb37-10"><a href="regression-and-classification-trees.html#cb37-10" tabindex="-1"></a>                            <span class="at">trControl =</span> trctrl,</span>
+<span id="cb37-11"><a href="regression-and-classification-trees.html#cb37-11" tabindex="-1"></a>                            <span class="at">tuneGrid=</span><span class="fu">expand.grid</span>(<span class="at">cp=</span><span class="fu">seq</span>(.<span class="dv">001</span>, .<span class="dv">1</span>, .<span class="dv">001</span>)))</span></code></pre></div>
+<pre><code>## Warning in train.default(x, y, weights = w, ...): The metric &quot;Accuracy&quot; was not in the result set. ROC will be used
+## instead.</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="regression-and-classification-trees.html#cb39-1" tabindex="-1"></a>tree.sbi</span>
+<span id="cb39-2"><a href="regression-and-classification-trees.html#cb39-2" tabindex="-1"></a>tree.sbi<span class="sc">$</span>finalModel</span>
+<span id="cb39-3"><a href="regression-and-classification-trees.html#cb39-3" tabindex="-1"></a><span class="fu">rpart.plot</span>(tree.sbi<span class="sc">$</span>finalModel)</span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-15-1.png" alt="" width="672" /></p>
+</details>
+<p>
+<p>
+<ol start="2" style="list-style-type: decimal">
+<li>Compare the confusion matrix of the trees fitted with <code>rpart()</code> function
+and the <code>caret</code> package.</li>
+</ol>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="regression-and-classification-trees.html#cb40-1" tabindex="-1"></a>Pred1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(sbi.prune.tree, sbi.data, <span class="at">type =</span> <span class="st">&quot;class&quot;</span> )</span>
+<span id="cb40-2"><a href="regression-and-classification-trees.html#cb40-2" tabindex="-1"></a>Pred2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(tree.sbi, sbi.data)</span>
+<span id="cb40-3"><a href="regression-and-classification-trees.html#cb40-3" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="regression-and-classification-trees.html#cb40-4" tabindex="-1"></a><span class="fu">table</span>(sbi.data<span class="sc">$</span>sbi.bin, Pred1)</span>
+<span id="cb40-5"><a href="regression-and-classification-trees.html#cb40-5" tabindex="-1"></a><span class="fu">table</span>(sbi.data<span class="sc">$</span>sbi.bin, Pred2)</span>
+<span id="cb40-6"><a href="regression-and-classification-trees.html#cb40-6" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="regression-and-classification-trees.html#cb40-7" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;psych&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:ggplot2&#39;:
+## 
+##     %+%, alpha</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="regression-and-classification-trees.html#cb43-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.data<span class="sc">$</span>sbi.bin, Pred1))</span>
+<span id="cb43-2"><a href="regression-and-classification-trees.html#cb43-2" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.data<span class="sc">$</span>sbi.bin, Pred2))</span></code></pre></div>
+</div>
+</div>
+<div id="CART4" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Exercises<a href="regression-and-classification-trees.html#CART4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Solve the following exercises:</p>
+<ol style="list-style-type: decimal">
+<li>The dataset <a href="https://www.dropbox.com/s/cwkw3p91zyizcqz/SA_heart.csv?dl=1">SA_heart.csv</a>
+contains on coronary heart disease status (variable <em>chd</em>) and several risk
+factors including the cumulative tobacco consumption <em>tobacco</em>, systolic <em>sbp</em>,
+and <em>age</em></li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><p>Fit a classification tree for <em>chd</em> using
+<em>tobacco</em>,<em>sbp</em> and <em>age</em></p></li>
+<li><p>Find the AUC ROC and confusion matrix for the tree</p></li>
+<li><p>What is the predicted probability of coronary heart disease for someone
+with no tobacco consumption, sbp=132 and 45 years old?</p></li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>The dataset <a href="https://www.dropbox.com/s/jeqdtq04zl9f0er/FEV.csv?dl=1">fev.csv</a>
+contains the measurements of forced expiratory volume (FEV) tests,
+evaluating the pulmonary capacity in 654 children and young adults.</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><p>Fit a regression tree to predict <em>fev</em> using <em>age</em>, <em>height</em> and <em>sex</em>.</p></li>
+<li><p>Compare the MSE of the tree with a GAM model for <em>fev</em> with <em>sex</em> and
+smoothing splines for <em>height</em> and <em>age</em>.</p></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bagging.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["MLB-Beyond-Additivity.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

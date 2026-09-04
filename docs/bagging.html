@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Bagging | Machine Learning for Biostatistics</title>
+  <meta name="description" content="2 Bagging | Machine Learning for Biostatistics" />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Bagging | Machine Learning for Biostatistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Bagging | Machine Learning for Biostatistics" />
+  
+  
+  
+
+<meta name="author" content="Armando Teixeira-Pinto &amp; Jaroslaw Harezlak" />
+
+
+<meta name="date" content="2026-09-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="regression-and-classification-trees.html"/>
+<link rel="next" href="random-forests.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><center><img src="bca.png"><H3><b><font color="F26531"> Machine Learning for Biostatistics </font> </b></H3> <a href="https://canvas.sydney.edu.au/courses/74457/modules" style="color:364550" target="blank"><small><i> Back to canvas website </i></small></a></center></li>
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Beyond Additivity</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#introduction"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#dataset-used-in-the-examples"><i class="fa fa-check"></i>Dataset used in the examples</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#slides-from-the-videos"><i class="fa fa-check"></i>Slides from the videos</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html"><i class="fa fa-check"></i><b>1</b> Regression and Classification Trees</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#RCT1"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#CART2"><i class="fa fa-check"></i><b>1.2</b> Readings</a></li>
+<li class="chapter" data-level="1.3" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#CART3"><i class="fa fa-check"></i><b>1.3</b> Practice session</a>
+<ul>
+<li class="chapter" data-level="" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#task-1---grow-a-complete-regression-tree"><i class="fa fa-check"></i>Task 1 - Grow a complete regression tree</a></li>
+<li class="chapter" data-level="" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#task-2---make-predictions-from-a-tree"><i class="fa fa-check"></i>Task 2 - Make predictions from a tree</a></li>
+<li class="chapter" data-level="" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#task-3---fit-a-tree-using-cross-validation"><i class="fa fa-check"></i>Task 3 - Fit a tree using Cross-validation</a></li>
+<li class="chapter" data-level="" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#task-4---fit-a-classification-tree"><i class="fa fa-check"></i>Task 4 - Fit a classification tree</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="regression-and-classification-trees.html"><a href="regression-and-classification-trees.html#CART4"><i class="fa fa-check"></i><b>1.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="bagging.html"><a href="bagging.html"><i class="fa fa-check"></i><b>2</b> Bagging</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="bagging.html"><a href="bagging.html#BA1"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="bagging.html"><a href="bagging.html#BA2"><i class="fa fa-check"></i><b>2.2</b> Readings</a></li>
+<li class="chapter" data-level="2.3" data-path="bagging.html"><a href="bagging.html#BA3"><i class="fa fa-check"></i><b>2.3</b> Practice session</a>
+<ul>
+<li class="chapter" data-level="" data-path="bagging.html"><a href="bagging.html#task-1---use-bagging-to-build-a-classification-model"><i class="fa fa-check"></i>Task 1 - Use bagging to build a classification model</a></li>
+<li class="chapter" data-level="" data-path="bagging.html"><a href="bagging.html#task-2---compute-the-variable-importance"><i class="fa fa-check"></i>Task 2 - Compute the variable importance</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="bagging.html"><a href="bagging.html#BA4"><i class="fa fa-check"></i><b>2.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="random-forests.html"><a href="random-forests.html"><i class="fa fa-check"></i><b>3</b> Random Forests</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="random-forests.html"><a href="random-forests.html#RF1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="random-forests.html"><a href="random-forests.html#RF"><i class="fa fa-check"></i><b>3.2</b> Readings</a></li>
+<li class="chapter" data-level="3.3" data-path="random-forests.html"><a href="random-forests.html#RF3"><i class="fa fa-check"></i><b>3.3</b> Practice session</a>
+<ul>
+<li class="chapter" data-level="" data-path="random-forests.html"><a href="random-forests.html#task-1---build-a-random-forest-model"><i class="fa fa-check"></i>Task 1 - Build a Random Forest model</a></li>
+<li class="chapter" data-level="" data-path="random-forests.html"><a href="random-forests.html#task-2---compute-the-variables-importance"><i class="fa fa-check"></i>Task 2 - Compute the variables importance</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="random-forests.html"><a href="random-forests.html#RF4"><i class="fa fa-check"></i><b>3.4</b> Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><center><a href="https://canvas.sydney.edu.au/courses/74457/modules" style="color:364550" target="blank"><img src="usyd2.gif" width="60%"></a> <small>© A.Teixeira-Pinto, University of Sydney, 2021</small></center></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Machine Learning for Biostatistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="bagging" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Bagging<a href="bagging.html#bagging" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="BA1" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Introduction<a href="bagging.html#BA1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Trees are quite flexible leading to non biased prediction, and intuitive to
+interpret. However, they tend to have a high variance, meaning that a small
+change in the data may result in a different tree.</p>
+<p><strong>Bagging</strong> is an approach that tries to “stabilise” the predictions from trees.
+Rather that fitting a single tree to the data, we will bootstrap the data and
+for each bootstrap sample, we will fit a tree. The final prediction is an
+average of all the predictions of the trees, if the outcome is continuous, or
+the class that was most common among the predictions, if the outcome is
+categorical</p>
+<p><img src="bagging.png" /></p>
+<p>The downside of this approach is that we lose the interpretability of a
+single tree. The result is a prediction from what in machine learning is
+sometimes referred as a <em>black box</em> method.</p>
+<p>We can however use the multiple trees to create a metric of variable importance.
+The idea is that a variable that appears early in many trees is “more”
+important than a predictor that consistently appears further down in the trees.</p>
+<iframe width="784" height="441" src="https://www.youtube.com/embed/8YtkBDV5Xq4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
+<div id="BA2" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Readings<a href="bagging.html#BA2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Read the following chapters of <em>An introduction to statistical learning</em>:</p>
+<ul>
+<li>8.2.1 Bagging</li>
+</ul>
+</div>
+<div id="BA3" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Practice session<a href="bagging.html#BA3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="task-1---use-bagging-to-build-a-classification-model" class="section level3 unnumbered hasAnchor">
+<h3>Task 1 - Use bagging to build a classification model<a href="bagging.html#task-1---use-bagging-to-build-a-classification-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <a href="https://www.dropbox.com/s/da3by5vuzkv77xi/SBI.csv?dl=1">SBI.csv</a> dataset
+contains the information of more than 2300 children that attended the
+emergency services with fever and were tested for serious bacterial infection.
+The variable <strong>sbi</strong> has
+4 categories: Not Applicable(no infection) / UTI / Pneum / Bact</p>
+<p>Create a new variable sbi.bin that identifies if a child was diagnosed
+or not with serious bacterial infection.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="bagging.html#cb44-1" tabindex="-1"></a>sbi.data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/wg32uj43fsy9yvd/SBI.csv?dl=1&quot;</span>)</span>
+<span id="cb44-2"><a href="bagging.html#cb44-2" tabindex="-1"></a><span class="fu">summary</span>(sbi.data)</span></code></pre></div>
+<pre><code>##        X                id          fever_hours           age               sex            wcc                prevAB    
+##  Min.   :   1.0   Min.   :   495   Min.   :   0.00   Min.   :0.010   Length   :2348   Min.   : 0.2368   Length   :2348  
+##  1st Qu.: 587.8   1st Qu.:133039   1st Qu.:  24.00   1st Qu.:0.760   N.unique :   2   1st Qu.: 7.9000   N.unique :   2  
+##  Median :1174.5   Median :160016   Median :  48.00   Median :1.525   N.blank  :   0   Median :11.6000   N.blank  :   0  
+##  Mean   :1174.5   Mean   :153698   Mean   :  80.06   Mean   :1.836   Min.nchar:   1   Mean   :12.6431   Min.nchar:   2  
+##  3rd Qu.:1761.2   3rd Qu.:196030   3rd Qu.:  78.00   3rd Qu.:2.752   Max.nchar:   1   3rd Qu.:16.1000   Max.nchar:   3  
+##  Max.   :2348.0   Max.   :229986   Max.   :3360.00   Max.   :4.990                    Max.   :58.7000                   
+##         sbi            pct                 crp        
+##  Length   :2348   Min.   :8.647e-03   Min.   :  0.00  
+##  N.unique :   4   1st Qu.:1.600e-01   1st Qu.: 11.83  
+##  N.blank  :   0   Median :7.600e-01   Median : 30.97  
+##  Min.nchar:   3   Mean   :3.744e+00   Mean   : 48.41  
+##  Max.nchar:  13   3rd Qu.:4.620e+00   3rd Qu.: 66.20  
+##                   Max.   :1.565e+02   Max.   :429.90</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="bagging.html#cb46-1" tabindex="-1"></a><span class="co"># Create a binary variable based on &quot;sbi&quot;</span></span>
+<span id="cb46-2"><a href="bagging.html#cb46-2" tabindex="-1"></a>sbi.data<span class="sc">$</span>sbi.bin <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(sbi.data<span class="sc">$</span>sbi <span class="sc">==</span> <span class="st">&quot;NotApplicable&quot;</span>, <span class="st">&quot;NOSBI&quot;</span>, <span class="st">&quot;SBI&quot;</span>))</span>
+<span id="cb46-3"><a href="bagging.html#cb46-3" tabindex="-1"></a><span class="fu">table</span>(sbi.data<span class="sc">$</span>sbi, sbi.data<span class="sc">$</span>sbi.bin)</span></code></pre></div>
+<pre><code>##                
+##                 NOSBI  SBI
+##   Bact              0   34
+##   NotApplicable  1752    0
+##   Pneu              0  251
+##   UTI               0  311</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="bagging.html#cb48-1" tabindex="-1"></a><span class="co">#sbi.data.sub &lt;- sbi.data[,c(&quot;sbi.bin&quot;,&quot;fever_hours&quot;,&quot;age&quot;,&quot;sex&quot;,&quot;wcc&quot;,&quot;prevAB&quot;,&quot;pct&quot;,&quot;crp&quot;)]</span></span></code></pre></div>
+<p>Now, let’s using bagging to predict if a child has serious bacterial
+infection with the perdictors <strong>fever_hours</strong>, <strong>wcc</strong>, <strong>age</strong>, <strong>prevAB</strong>,
+<strong>pct</strong>, and <strong>crp</strong>.</p>
+<p>However, we will leave 200 observations out to test the model. We will
+use the <code>bagging()</code> function from the <code>ipred</code> package and fit 100 trees.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="bagging.html#cb49-1" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb49-2"><a href="bagging.html#cb49-2" tabindex="-1"></a><span class="fu">library</span>(ipred)  <span class="co">#includes the bagging function </span></span>
+<span id="cb49-3"><a href="bagging.html#cb49-3" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb49-4"><a href="bagging.html#cb49-4" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co"># for the kappa statistics</span></span>
+<span id="cb49-5"><a href="bagging.html#cb49-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1999</span>)</span>
+<span id="cb49-6"><a href="bagging.html#cb49-6" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="bagging.html#cb49-7" tabindex="-1"></a>sbi.bag <span class="ot">&lt;-</span> <span class="fu">bagging</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb49-8"><a href="bagging.html#cb49-8" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),],      <span class="co">#not using rows 500 to 700</span></span>
+<span id="cb49-9"><a href="bagging.html#cb49-9" tabindex="-1"></a>                  <span class="at">nbagg=</span><span class="dv">100</span>)</span></code></pre></div>
+<p>We will also fit one single tree to use as a comparison.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="bagging.html#cb50-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb50-2"><a href="bagging.html#cb50-2" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),], <span class="at">method=</span><span class="st">&quot;class&quot;</span>, </span>
+<span id="cb50-3"><a href="bagging.html#cb50-3" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp=</span>.<span class="dv">001</span>))</span>
+<span id="cb50-4"><a href="bagging.html#cb50-4" tabindex="-1"></a><span class="fu">printcp</span>(sbi.tree)</span></code></pre></div>
+<pre><code>## 
+## Classification tree:
+## rpart(formula = sbi.bin ~ fever_hours + age + sex + wcc + prevAB + 
+##     pct + crp, data = sbi.data[-c(500:700), ], method = &quot;class&quot;, 
+##     control = rpart.control(cp = 0.001))
+## 
+## Variables actually used in tree construction:
+## [1] age         crp         fever_hours pct         prevAB      sex         wcc        
+## 
+## Root node error: 499/2147 = 0.23242
+## 
+## n= 2147 
+## 
+##          CP nsplit rel error  xerror     xstd
+## 1  0.021042      0   1.00000 1.00000 0.039220
+## 2  0.018036      2   0.95792 0.98998 0.039083
+## 3  0.015030      3   0.93988 0.98597 0.039027
+## 4  0.010020      5   0.90982 0.98998 0.039083
+## 5  0.008016      7   0.88978 0.96593 0.038745
+## 6  0.007014     10   0.86573 0.97595 0.038887
+## 7  0.006012     14   0.83166 0.98196 0.038971
+## 8  0.004509     17   0.81363 0.98597 0.039027
+## 9  0.004008     21   0.79559 0.99198 0.039110
+## 10 0.003340     22   0.79158 0.99198 0.039110
+## 11 0.003006     27   0.77355 1.01804 0.039464
+## 12 0.002672     31   0.76152 1.02004 0.039491
+## 13 0.002004     39   0.73747 1.03006 0.039624
+## 14 0.001002     54   0.70741 1.10421 0.040558
+## 15 0.001000     56   0.70541 1.11623 0.040701</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="bagging.html#cb52-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">prune</span>(sbi.tree, <span class="at">cp=</span><span class="fl">0.008016</span>)</span></code></pre></div>
+<p>We can now compute the confusion matrix for both approaches, using the
+200 cases left out from the model fitting.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="bagging.html#cb53-1" tabindex="-1"></a>sbi.test.data <span class="ot">&lt;-</span> sbi.data[<span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),]</span>
+<span id="cb53-2"><a href="bagging.html#cb53-2" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="bagging.html#cb53-3" tabindex="-1"></a><span class="co">#confusion matrix for 1 tree</span></span>
+<span id="cb53-4"><a href="bagging.html#cb53-4" tabindex="-1"></a><span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb53-5"><a href="bagging.html#cb53-5" tabindex="-1"></a>    <span class="fu">predict</span>(sbi.tree, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>))</span></code></pre></div>
+<pre><code>##        
+##         NOSBI SBI
+##   NOSBI    94  10
+##   SBI      88   9</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="bagging.html#cb55-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb55-2"><a href="bagging.html#cb55-2" tabindex="-1"></a>    <span class="fu">predict</span>(sbi.tree, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)))</span></code></pre></div>
+<pre><code>## Call: cohen.kappa1(x = x, w = w, n.obs = n.obs, alpha = alpha, levels = levels, 
+##     w.exp = w.exp)
+## 
+## Cohen Kappa and Weighted Kappa correlation coefficients and confidence boundaries 
+##                   lower estimate upper
+## unweighted kappa -0.087  -0.0035  0.08
+## weighted kappa   -0.087  -0.0035  0.08
+## 
+##  Number of subjects = 201</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="bagging.html#cb57-1" tabindex="-1"></a><span class="co">#confusion matrix for bagged trees</span></span>
+<span id="cb57-2"><a href="bagging.html#cb57-2" tabindex="-1"></a><span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb57-3"><a href="bagging.html#cb57-3" tabindex="-1"></a>      <span class="fu">predict</span>(sbi.bag, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>))</span></code></pre></div>
+<pre><code>##        
+##         NOSBI SBI
+##   NOSBI    95   9
+##   SBI      78  19</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="bagging.html#cb59-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb59-2"><a href="bagging.html#cb59-2" tabindex="-1"></a>      <span class="fu">predict</span>(sbi.bag, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)))</span></code></pre></div>
+<pre><code>## Call: cohen.kappa1(x = x, w = w, n.obs = n.obs, alpha = alpha, levels = levels, 
+##     w.exp = w.exp)
+## 
+## Cohen Kappa and Weighted Kappa correlation coefficients and confidence boundaries 
+##                    lower estimate upper
+## unweighted kappa -0.0047    0.091  0.19
+## weighted kappa   -0.0047    0.091  0.19
+## 
+##  Number of subjects = 201</code></pre>
+<p>The <em>bagging</em> improved the prediction ability.</p>
+<p><strong>TRY IT YOURSELF:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Use the <code>caret</code> package to fit the model above with bagging. You can use
+the entire dataset and compute the cross-validated AUC-ROC and confusion matrix</li>
+</ol>
+<details>
+<summary>
+See the solution code
+</summary>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="bagging.html#cb61-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1777</span>)</span>
+<span id="cb61-2"><a href="bagging.html#cb61-2" tabindex="-1"></a>trctrl      <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, </span>
+<span id="cb61-3"><a href="bagging.html#cb61-3" tabindex="-1"></a>                            <span class="at">number =</span> <span class="dv">10</span>,</span>
+<span id="cb61-4"><a href="bagging.html#cb61-4" tabindex="-1"></a>                             <span class="at">classProbs =</span> <span class="cn">TRUE</span>,  </span>
+<span id="cb61-5"><a href="bagging.html#cb61-5" tabindex="-1"></a>                            <span class="at">summaryFunction =</span> twoClassSummary)</span>
+<span id="cb61-6"><a href="bagging.html#cb61-6" tabindex="-1"></a></span>
+<span id="cb61-7"><a href="bagging.html#cb61-7" tabindex="-1"></a>bag.sbi    <span class="ot">&lt;-</span> <span class="fu">train</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb61-8"><a href="bagging.html#cb61-8" tabindex="-1"></a>                            <span class="at">data =</span> sbi.data,</span>
+<span id="cb61-9"><a href="bagging.html#cb61-9" tabindex="-1"></a>                            <span class="at">method =</span> <span class="st">&quot;treebag&quot;</span>,</span>
+<span id="cb61-10"><a href="bagging.html#cb61-10" tabindex="-1"></a>                            <span class="at">trControl =</span> trctrl,</span>
+<span id="cb61-11"><a href="bagging.html#cb61-11" tabindex="-1"></a>                            <span class="at">nbagg =</span> <span class="dv">100</span>,</span>
+<span id="cb61-12"><a href="bagging.html#cb61-12" tabindex="-1"></a>                            <span class="at">metric=</span><span class="st">&quot;ROC&quot;</span>)</span>
+<span id="cb61-13"><a href="bagging.html#cb61-13" tabindex="-1"></a>bag.sbi</span>
+<span id="cb61-14"><a href="bagging.html#cb61-14" tabindex="-1"></a><span class="fu">confusionMatrix</span>(bag.sbi)</span></code></pre></div>
+</details>
+<p>
+<p>
+</div>
+<div id="task-2---compute-the-variable-importance" class="section level3 unnumbered hasAnchor">
+<h3>Task 2 - Compute the variable importance<a href="bagging.html#task-2---compute-the-variable-importance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s compute the variable importance based on the <code>sbi.bag</code> bagging model.
+The function <code>varImp()</code> from the <code>caret</code> package, can be applied to the
+result of the <code>bagging()</code> function</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="bagging.html#cb62-1" tabindex="-1"></a>pred.imp <span class="ot">&lt;-</span> <span class="fu">varImp</span>(sbi.bag)</span>
+<span id="cb62-2"><a href="bagging.html#cb62-2" tabindex="-1"></a>pred.imp</span>
+<span id="cb62-3"><a href="bagging.html#cb62-3" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="bagging.html#cb62-4" tabindex="-1"></a><span class="co">#You can also plot the results</span></span>
+<span id="cb62-5"><a href="bagging.html#cb62-5" tabindex="-1"></a><span class="fu">barplot</span>(pred.imp<span class="sc">$</span>Overall, </span>
+<span id="cb62-6"><a href="bagging.html#cb62-6" tabindex="-1"></a>        <span class="at">names.arg =</span> <span class="fu">row.names</span>(pred.imp))</span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-22-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="bagging.html#cb63-1" tabindex="-1"></a><span class="co">#If you use the caret package</span></span>
+<span id="cb63-2"><a href="bagging.html#cb63-2" tabindex="-1"></a><span class="co">#to fit the model, you can use the ggplot() to create an alternative plot</span></span>
+<span id="cb63-3"><a href="bagging.html#cb63-3" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="bagging.html#cb63-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb63-5"><a href="bagging.html#cb63-5" tabindex="-1"></a>pred.imp.caret <span class="ot">&lt;-</span> <span class="fu">varImp</span>(bag.sbi)</span>
+<span id="cb63-6"><a href="bagging.html#cb63-6" tabindex="-1"></a><span class="fu">ggplot</span>(pred.imp.caret) <span class="co">#This is a standard ggplot object which can be edited in the usual way</span></span></code></pre></div>
+<p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-22-2.png" alt="" width="672" /></p>
+</div>
+</div>
+<div id="BA4" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Exercises<a href="bagging.html#BA4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Solve the following exercises:</p>
+<ol style="list-style-type: decimal">
+<li>The dataset <a href="https://www.dropbox.com/s/cwkw3p91zyizcqz/SA_heart.csv?dl=1">SA_heart.csv</a>
+contains on coronary heart disease status (variable <em>chd</em>) and several risk
+factors including the cumulative tobacco consumption <em>tobacco</em>, systolic <em>sbp</em>,
+and <em>age</em></li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><p>Build a predictive model by bagging 100 tree to classify <em>chd</em> using
+<em>tobacco</em>,<em>sbp</em> and <em>age</em></p></li>
+<li><p>Find the cross-validated AUC ROC and confusion matrix for the model above
+and compare them with ones obtained from logistic regression.</p></li>
+<li><p>Which is the most important predictor?</p></li>
+<li><p>What is the predicted probability of coronary heart disease for someone
+with no tobacco consumption, sbp=132 and 45 years old?</p></li>
+</ol>
+<ol start="2" style="list-style-type: decimal">
+<li>The dataset <a href="https://www.dropbox.com/s/jeqdtq04zl9f0er/FEV.csv?dl=1">fev.csv</a>
+contains the measurements of forced expiratory volume (FEV) tests,
+evaluating the pulmonary capacity in 654 children and young adults.</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><p>Fit a model based on bagging 200 tree to predict <em>fev</em> using
+<em>age</em>, <em>height</em> and <em>sex</em>.</p></li>
+<li><p>Plot the variables importance.</p></li>
+<li><p>Compare the MSE of the model above with a GAM model for <em>fev</em> with <em>sex</em> and
+smoothing splines for <em>height</em> and <em>age</em>.</p></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="regression-and-classification-trees.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="random-forests.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["MLB-Beyond-Additivity.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

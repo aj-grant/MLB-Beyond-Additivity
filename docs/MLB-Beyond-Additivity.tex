@@ -1,0 +1,1761 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{book}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Machine Learning for Biostatistics},
+  pdfauthor={Armando Teixeira-Pinto \& Jaroslaw Harezlak},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Machine Learning for Biostatistics}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Module 6}
+\author{Armando Teixeira-Pinto \& Jaroslaw Harezlak}
+\date{2026-09-04}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\chapter*{Beyond Additivity}\label{beyond-additivity}
+\addcontentsline{toc}{chapter}{Beyond Additivity}
+
+\section*{Introduction}\label{introduction}
+\addcontentsline{toc}{section}{Introduction}
+
+So far, most of the methods that we have seen (with the exception of KNN) assume
+an additive effect of the predictors. We will now study non-parametric methods
+to estimate \(f(\mathbf x)\).
+
+By the end of this module you should be able to:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Construct regression and classification trees
+\item
+  Use cross-validation to prune a tree
+\item
+  Understand the advantages and disadvantages of trees
+\item
+  Define bagging and boosting
+\item
+  Fit random forests
+\end{enumerate}
+
+\section*{Dataset used in the examples}\label{dataset-used-in-the-examples}
+\addcontentsline{toc}{section}{Dataset used in the examples}
+
+The dataset \textbf{triceps} is available in the \texttt{MultiKink} package.
+You may \texttt{install.packages("MultiKink")}, load the library (\texttt{library(MultiKink)})
+and then run \texttt{data("triceps")}.
+
+The data are derived from an anthropometric study of 892 females under 50 years
+in three Gambian villages in West Africa. There are 892 observations
+on the following 3 variables:
+
+\begin{itemize}
+\tightlist
+\item
+  age - Age of respondents.
+\item
+  lntriceps - Log of the triceps skinfold thickness.
+\item
+  triceps - Triceps skinfold thickness.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+The data \href{https://www.dropbox.com/s/cwkw3p91zyizcqz/SA_heart.csv?dl=1}{SA\_heart.csv}
+is retrospective sample of males in a heart-disease high-risk region of the
+Western Cape, South Africa. There are roughly two controls per case of CHD.
+
+Many of the CHD positive men have undergone blood pressure
+reduction treatment and other programs to reduce their risk factors after
+their CHD event. In some cases the measurements were made after these
+treatments. These data are taken from a larger dataset,
+described in Rousseauw et al, 1983, South African Medical Journal.
+
+The data contains 462 observations on the following 10 variables.
+
+\begin{itemize}
+\tightlist
+\item
+  sbp - systolic blood pressure
+\item
+  tobacco - cumulative tobacco (kg)
+\item
+  ldl - low density lipoprotein cholesterol
+\item
+  adiposity - a numeric vector
+\item
+  famhist - family history of heart disease, a factor
+  with levels Absent Present
+\item
+  typea - type-A behavior
+\item
+  obesity - a numeric vector
+\item
+  alcohol - current alcohol consumption
+\item
+  age - age at onset
+\item
+  chd- response, coronary heart disease (1 - chd, 0 - no chd)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+The file \href{https://www.dropbox.com/s/da3by5vuzkv77xi/SBI.csv?dl=1}{SBI.csv}
+contains 2349 records of children admitted to the emergency room
+with fever and tested for serious bacterial infection (\textbf{sbi}). The following
+variables are included :
+
+\begin{itemize}
+\tightlist
+\item
+  id -- patient's number
+\item
+  fever\_hours -- duration of the fever in hours
+\item
+  age -- child's age
+\item
+  sex -- child's sex (M / F)
+\item
+  wcc -- white cell count
+\item
+  prevAB -- previous antibiotics (Yes / No)
+\item
+  sbi -- serious bacterial infection (Not Applicable / UTI / Pneum / Bact)
+\item
+  pct -- procalcitonin
+\item
+  crp -- c-reactive protein
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section*{Slides from the videos}\label{slides-from-the-videos}
+\addcontentsline{toc}{section}{Slides from the videos}
+
+You can download the slides used in the videos form Beyond Additivity:
+
+\href{https://www.dropbox.com/s/tknv7nbtetstth3/Module-6-Beyond-Additivity_2020.pdf?dl=1}{Slides}
+
+\chapter{Regression and Classification Trees}\label{regression-and-classification-trees}
+
+\section{Introduction}\label{RCT1}
+
+Decision trees can be used for continuous outcomes - \emph{regression trees} - or
+categorical ones - \emph{classification trees}. Classification and regression trees
+are sometimes referred as \textbf{CART}.
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/tree.png}}
+
+The figure above represents a classification tree with several
+branches that partition the predictors
+space into disjoint regions according to some loss function. The
+predicted value for the outcome is found at the end of the branches.
+
+For \textbf{regression trees}, and similarly to the linear model, the predicted value
+will correspond to the mean of the region created by the partition. For a
+classification tree, the prediction will correspond to a category of the
+outcome.
+
+In regression trees, a common loss function used to
+generate the partition is:
+
+\(\sum_{i \in R_1} (y_i - \bar{y}_{R_1})^2 + \sum_{i \in R_2} (y_i - \bar{y}_{R_2})^2\)
+
+where \(\bar{y}_{R_1}\) and \(\bar{y}_{R_2}\) are the means of the outcome for
+the regions created by splitting the region defined by a predictor into 2
+parts.
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/split.png}}
+
+The animation below shows different splits of
+the predictor and the correspondent prediction (mean of \(y\)) - the two
+horizontal lines represent to the mean of the outcome
+in the two regions. The change in the loss function is computed in the top
+left corner:
+
+At each step, the predictor and respective cutoff that minimise the loss
+function is selected to split the branch.
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/treecutoff.png}}
+
+We can keep dividing the branches until each region has 1 data
+point (there can be more if there are ties). This of course will result in
+the tree overfitting the data. We would prefer a smaller tree that would
+result in a lower MSE. Cutting the branches of the tree to reduce its
+complexity and potentially leading to an improvement in the MSE is called
+\emph{pruning}.
+
+Once again we will use the idea of penalisation to balance complexity and
+fitting.
+
+\[
+\sum_{m=1}^{|T|} \sum_{x_i \in R_m} (y_i - \bar{y}_{R_m})^2 + \alpha |T|, \\
+|T| \text{ is the number of nodes in the tree}
+\]
+
+The penalisation (tuning) parameter, \(\alpha\), controls the amount of pruning
+and it can be chosen by cross-validation.
+
+\textbf{Classification trees} follow a similar logic but the outcome is categorical.
+We will have to consider a different loss function. Two common loss functions
+used in classification trees are:
+
+\emph{Gini index}: \(1-\sum_{k=1}^K{p_k^2}\)
+
+\begin{itemize}
+\tightlist
+\item
+  Favours larger partitions.
+\item
+  Perfectly classified, Gini Index would be zero.
+\item
+  Evenly distributed would be 1 -- (1/\# Classes).
+\end{itemize}
+
+\emph{Information gain (entropy):} \(\sum_{k=1}^K{-p_k\log_2 p_k}\)
+
+\begin{itemize}
+\tightlist
+\item
+  Favours splits with small counts but many unique values
+\item
+  Weights probability of class by log2 of the class probability
+\item
+  Information Gain is the entropy of the parent node minus the entropy of the child nodes.
+\end{itemize}
+
+\section{Readings}\label{CART2}
+
+Read the following chapters of \emph{An introduction to statistical learning}:
+
+\begin{itemize}
+\tightlist
+\item
+  8.1 The Basics of Decisions Trees
+\item
+  \href{https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf}{An Introduction to Recursive Partitioning Using the RPART Routines} - extra
+  notes
+\end{itemize}
+
+\section{Practice session}\label{CART3}
+
+\subsection*{Task 1 - Grow a complete regression tree}\label{task-1---grow-a-complete-regression-tree}
+\addcontentsline{toc}{subsection}{Task 1 - Grow a complete regression tree}
+
+Using the BMD.csv dataset,
+
+Using the \href{https://www.dropbox.com/s/7wjsfdaf0wt2kg2/bmd.csv?dl=1}{bmd.csv},
+fit a tree to predict bone mineral density (BMD)
+based on AGE
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#libraries that we will need}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1974}\NormalTok{) }\CommentTok{\#fix the random generator seed }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(rpart)  }\CommentTok{\#library for CART}
+\FunctionTok{library}\NormalTok{(rpart.plot)}
+\CommentTok{\#read the dataset}
+\NormalTok{bmd.data     }\OtherTok{\textless{}{-}} 
+  \FunctionTok{read.csv}\NormalTok{(}\StringTok{"https://www.dropbox.com/s/c6mhgatkotuze8o/bmd.csv?dl=1"}\NormalTok{, }
+           \AttributeTok{stringsAsFactors =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The package \texttt{rpart} implements the classification and regression trees and the
+\texttt{rpart.plot} contains the tree plotting function. We will use the \texttt{rpart()}
+function to fit the tree, with some options to grow the complete tree
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(caret)}
+\NormalTok{t1 }\OtherTok{\textless{}{-}} \FunctionTok{rpart}\NormalTok{(bmd }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age,}
+            \AttributeTok{data =}\NormalTok{ bmd.data, }
+            \AttributeTok{method =} \StringTok{"anova"}\NormalTok{,         }\CommentTok{\#indicates the outcome is continuous}
+            \AttributeTok{control =} \FunctionTok{rpart.control}\NormalTok{(}
+                       \AttributeTok{minsplit =} \DecValTok{1}\NormalTok{,  }\CommentTok{\# min number of observ for a split }
+                       \AttributeTok{minbucket =} \DecValTok{1}\NormalTok{, }\CommentTok{\# min nr of obs in terminal nodes}
+                       \AttributeTok{cp=}\DecValTok{0}\NormalTok{)          }\CommentTok{\#decrease in complex for a split }
+\NormalTok{)}
+
+\CommentTok{\#the rpart.plot() may take a long time to plot}
+\CommentTok{\#the complete tree}
+\CommentTok{\#if you cannot run it, just try plot(t1); text(t1, pretty=1)}
+\CommentTok{\#and you will see just the structure of the tree}
+\FunctionTok{rpart.plot}\NormalTok{(t1)     }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: labs do not fit even at cex 0.15, there may be some overplotting
+\end{verbatim}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-3-1.pdf}}
+
+We can now prune the tree using a limit for the complexity parameter \(cp\).
+This will indicate that only a split with CP higher than the limit is worth it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{printcp}\NormalTok{(t1)                      }\CommentTok{\#CP for the complete tree}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Regression tree:
+## rpart(formula = bmd ~ age, data = bmd.data, method = "anova", 
+##     control = rpart.control(minsplit = 1, minbucket = 1, cp = 0))
+## 
+## Variables actually used in tree construction:
+## [1] age
+## 
+## Root node error: 4.659/169 = 0.027568
+## 
+## n= 169 
+## 
+##             CP nsplit  rel error  xerror    xstd
+## 1   1.5011e-01      0 1.0000e+00 1.01765 0.11147
+## 2   2.2857e-02      1 8.4989e-01 0.89504 0.11530
+## 3   2.1625e-02      2 8.2703e-01 1.18928 0.15101
+## 4   2.0621e-02      8 6.9728e-01 1.21668 0.15171
+## 5   1.7896e-02     11 6.2374e-01 1.29781 0.16189
+## 6   1.6691e-02     13 5.8795e-01 1.29128 0.16179
+## 7   1.3855e-02     14 5.7126e-01 1.27044 0.15896
+## 8   1.2133e-02     15 5.5740e-01 1.28841 0.15934
+## 9   1.1410e-02     16 5.4527e-01 1.35628 0.16661
+## 10  1.0975e-02     17 5.3386e-01 1.40868 0.17009
+## 11  1.0843e-02     21 4.8996e-01 1.40868 0.17009
+## 12  1.0550e-02     26 4.3574e-01 1.42386 0.17023
+## 13  1.0318e-02     27 4.2519e-01 1.39577 0.16607
+## 14  9.5921e-03     28 4.1488e-01 1.43436 0.17090
+## 15  9.5636e-03     29 4.0528e-01 1.43302 0.17121
+## 16  9.4801e-03     35 3.4511e-01 1.43302 0.17121
+## 17  8.8498e-03     37 3.2615e-01 1.45697 0.17171
+## 18  8.7833e-03     38 3.1730e-01 1.46385 0.17148
+## 19  8.6510e-03     39 3.0851e-01 1.46385 0.17148
+## 20  8.1753e-03     42 2.8164e-01 1.51318 0.17653
+## 21  8.1257e-03     43 2.7347e-01 1.50180 0.17666
+## 22  7.9341e-03     45 2.5722e-01 1.49873 0.17666
+## 23  6.8660e-03     46 2.4928e-01 1.48046 0.17148
+## 24  6.2708e-03     47 2.4242e-01 1.52337 0.17402
+## 25  5.9903e-03     52 2.1106e-01 1.51988 0.16810
+## 26  5.9250e-03     54 1.9908e-01 1.53343 0.16805
+## 27  5.9229e-03     56 1.8723e-01 1.53729 0.16825
+## 28  5.8272e-03     57 1.8131e-01 1.53729 0.16825
+## 29  5.4523e-03     58 1.7548e-01 1.54174 0.16837
+## 30  5.0336e-03     59 1.7003e-01 1.57444 0.16855
+## 31  4.9113e-03     60 1.6500e-01 1.57002 0.16862
+## 32  4.6286e-03     63 1.5026e-01 1.56988 0.17224
+## 33  4.5364e-03     64 1.4563e-01 1.62250 0.17986
+## 34  4.3127e-03     66 1.3656e-01 1.62250 0.17986
+## 35  4.3104e-03     68 1.2794e-01 1.62250 0.17986
+## 36  4.2807e-03     69 1.2363e-01 1.62704 0.17972
+## 37  3.9800e-03     71 1.1506e-01 1.60725 0.17771
+## 38  3.6958e-03     72 1.1108e-01 1.62131 0.17727
+## 39  3.1052e-03     75 9.9997e-02 1.61935 0.17755
+## 40  3.0222e-03     76 9.6892e-02 1.62050 0.17739
+## 41  2.7468e-03     78 9.0848e-02 1.61019 0.17499
+## 42  2.6775e-03     79 8.8101e-02 1.61092 0.17494
+## 43  2.5828e-03     81 8.2746e-02 1.62495 0.17811
+## 44  2.5347e-03     82 8.0163e-02 1.62522 0.17810
+## 45  2.4665e-03     83 7.7628e-02 1.60648 0.17644
+## 46  2.4609e-03     84 7.5162e-02 1.61453 0.17668
+## 47  2.4243e-03     86 7.0240e-02 1.61426 0.17669
+## 48  2.4140e-03     87 6.7816e-02 1.61381 0.17671
+## 49  2.3335e-03     88 6.5402e-02 1.61381 0.17671
+## 50  2.3321e-03     89 6.3068e-02 1.62015 0.17692
+## 51  2.2471e-03     91 5.8404e-02 1.62341 0.17707
+## 52  2.1072e-03     92 5.6157e-02 1.62288 0.17563
+## 53  2.0870e-03     93 5.4050e-02 1.64493 0.17924
+## 54  2.0451e-03    100 3.7574e-02 1.64696 0.17917
+## 55  1.9386e-03    101 3.5529e-02 1.64164 0.17923
+## 56  1.8005e-03    102 3.3590e-02 1.64927 0.17891
+## 57  1.3686e-03    103 3.1790e-02 1.65874 0.17933
+## 58  1.3438e-03    107 2.6306e-02 1.66822 0.17937
+## 59  1.2138e-03    108 2.4962e-02 1.66544 0.17949
+## 60  1.1334e-03    110 2.2535e-02 1.65286 0.17945
+## 61  1.0723e-03    111 2.1401e-02 1.66121 0.17957
+## 62  1.0605e-03    113 1.9257e-02 1.66661 0.17950
+## 63  1.0035e-03    114 1.8196e-02 1.67577 0.18096
+## 64  9.4464e-04    115 1.7193e-02 1.68613 0.18094
+## 65  7.5924e-04    116 1.6248e-02 1.69531 0.18176
+## 66  7.5061e-04    118 1.4730e-02 1.70108 0.18176
+## 67  7.4468e-04    119 1.3979e-02 1.70117 0.18175
+## 68  7.3755e-04    120 1.3234e-02 1.70117 0.18175
+## 69  7.1811e-04    121 1.2497e-02 1.70013 0.18179
+## 70  7.1728e-04    122 1.1779e-02 1.70013 0.18179
+## 71  7.1635e-04    123 1.1061e-02 1.70013 0.18179
+## 72  7.1110e-04    124 1.0345e-02 1.70013 0.18179
+## 73  6.6133e-04    125 9.6340e-03 1.70245 0.18178
+## 74  6.5629e-04    126 8.9727e-03 1.69886 0.18200
+## 75  6.5461e-04    127 8.3164e-03 1.69886 0.18200
+## 76  5.8428e-04    128 7.6618e-03 1.71271 0.18347
+## 77  5.1243e-04    129 7.0775e-03 1.71597 0.18319
+## 78  4.7746e-04    130 6.5651e-03 1.71423 0.18334
+## 79  4.7460e-04    131 6.0876e-03 1.71405 0.18335
+## 80  4.5064e-04    132 5.6130e-03 1.71288 0.18339
+## 81  4.3443e-04    133 5.1624e-03 1.71219 0.18323
+## 82  4.0723e-04    134 4.7279e-03 1.71290 0.18328
+## 83  4.0723e-04    135 4.3207e-03 1.71573 0.18329
+## 84  4.0195e-04    136 3.9135e-03 1.71573 0.18329
+## 85  3.6728e-04    137 3.5115e-03 1.71298 0.18333
+## 86  3.3896e-04    138 3.1442e-03 1.71664 0.18344
+## 87  3.1877e-04    139 2.8053e-03 1.71664 0.18344
+## 88  3.1811e-04    140 2.4865e-03 1.71680 0.18344
+## 89  2.7369e-04    141 2.1684e-03 1.71482 0.18318
+## 90  2.0990e-04    142 1.8947e-03 1.71456 0.18320
+## 91  1.8394e-04    143 1.6848e-03 1.71441 0.18311
+## 92  1.8306e-04    144 1.5008e-03 1.71669 0.18317
+## 93  1.8237e-04    145 1.3178e-03 1.71669 0.18317
+## 94  1.3863e-04    146 1.1354e-03 1.71682 0.18316
+## 95  1.1758e-04    148 8.5816e-04 1.71809 0.18298
+## 96  9.2318e-05    149 7.4058e-04 1.71952 0.18324
+## 97  9.1614e-05    150 6.4826e-04 1.71872 0.18323
+## 98  8.9016e-05    152 4.6503e-04 1.71872 0.18323
+## 99  8.1752e-05    153 3.7601e-04 1.71872 0.18323
+## 100 5.6280e-05    154 2.9426e-04 1.71817 0.18325
+## 101 5.0071e-05    155 2.3798e-04 1.72019 0.18319
+## 102 4.1650e-05    156 1.8791e-04 1.71880 0.18322
+## 103 2.7818e-05    157 1.4626e-04 1.71833 0.18317
+## 104 2.2876e-05    158 1.1844e-04 1.71756 0.18313
+## 105 1.7583e-05    159 9.5567e-05 1.71683 0.18313
+## 106 1.5454e-05    160 7.7983e-05 1.71756 0.18315
+## 107 1.3947e-05    161 6.2529e-05 1.71734 0.18318
+## 108 1.3462e-05    162 4.8582e-05 1.71734 0.18318
+## 109 1.2059e-05    163 3.5120e-05 1.71677 0.18317
+## 110 1.2058e-05    164 2.3061e-05 1.71677 0.18317
+## 111 6.8126e-06    165 1.1003e-05 1.71677 0.18317
+## 112 2.4728e-06    166 4.1899e-06 1.71691 0.18318
+## 113 1.7171e-06    167 1.7171e-06 1.71682 0.18318
+## 114 0.0000e+00    168 0.0000e+00 1.71656 0.18312
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{prune.t1 }\OtherTok{\textless{}{-}} \FunctionTok{prune}\NormalTok{(t1, }\AttributeTok{cp=}\FloatTok{0.02}\NormalTok{)   }\CommentTok{\#prune the tree with cp=0.02}
+
+\FunctionTok{printcp}\NormalTok{(prune.t1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Regression tree:
+## rpart(formula = bmd ~ age, data = bmd.data, method = "anova", 
+##     control = rpart.control(minsplit = 1, minbucket = 1, cp = 0))
+## 
+## Variables actually used in tree construction:
+## [1] age
+## 
+## Root node error: 4.659/169 = 0.027568
+## 
+## n= 169 
+## 
+##         CP nsplit rel error  xerror    xstd
+## 1 0.150111      0   1.00000 1.01765 0.11147
+## 2 0.022857      1   0.84989 0.89504 0.11530
+## 3 0.021625      2   0.82703 1.18928 0.15101
+## 4 0.020621      8   0.69728 1.21668 0.15171
+## 5 0.020000     11   0.62374 1.29781 0.16189
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rpart.plot}\NormalTok{(prune.t1)              }\CommentTok{\#pruned tree   }
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-4-1.pdf}}
+
+\textbf{TRY IT YOURSELF:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  Get a tree for the problem above but with the defaults of \texttt{rpart.control()}.
+\end{enumerate}
+
+See the solution code
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{?rpart.control     }\CommentTok{\#see the defaults}
+\NormalTok{t1.default }\OtherTok{\textless{}{-}} \FunctionTok{rpart}\NormalTok{(bmd }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age,}
+                    \AttributeTok{data =}\NormalTok{ bmd.data,  }
+                    \AttributeTok{method =} \StringTok{"anova"}\NormalTok{) }
+\FunctionTok{rpart.plot}\NormalTok{(t1.default)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-5-1.pdf}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Use the \texttt{caret} package to fit the \texttt{prune.t1} tree
+\end{enumerate}
+
+See the solution code
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{trctrl }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method =} \StringTok{"cv"}\NormalTok{, }\AttributeTok{number  =} \DecValTok{10}\NormalTok{)}
+
+\CommentTok{\#to get the same tree we will fix the tuning parameter cp}
+\CommentTok{\#to be 0.02}
+\NormalTok{t1.caret  }\OtherTok{\textless{}{-}}  \FunctionTok{train}\NormalTok{(bmd }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age, }
+                        \AttributeTok{data =}\NormalTok{ bmd.data, }
+                        \AttributeTok{method =} \StringTok{"rpart"}\NormalTok{,}
+                        \AttributeTok{trControl=}\NormalTok{trctrl,}
+                        \AttributeTok{control =} \FunctionTok{rpart.control}\NormalTok{(}\AttributeTok{minsplit =} \DecValTok{1}\NormalTok{, }
+                                                \AttributeTok{minbucket =} \DecValTok{1}\NormalTok{, }
+                                                \AttributeTok{cp=}\FloatTok{0.02}\NormalTok{),}
+                        \AttributeTok{tuneGrid =} \FunctionTok{expand.grid}\NormalTok{(}\AttributeTok{cp=}\FloatTok{0.02}\NormalTok{))}
+
+\FunctionTok{rpart.plot}\NormalTok{(t1.caret}\SpecialCharTok{$}\NormalTok{finalModel)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-6-1.pdf}}
+
+\subsection*{Task 2 - Make predictions from a tree}\label{task-2---make-predictions-from-a-tree}
+\addcontentsline{toc}{subsection}{Task 2 - Make predictions from a tree}
+
+Let's use the pruned tree from task 1 (\texttt{pruned.t1}) to predict the BMD for an
+individual 70 years old and compare it with the predictions from a linear
+model
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lm1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(bmd }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age,}
+           \AttributeTok{data =}\NormalTok{ bmd.data)}
+
+\FunctionTok{predict}\NormalTok{(prune.t1,                       }\CommentTok{\#prediction using the tree}
+        \AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{age=}\DecValTok{70}\NormalTok{))}
+
+\FunctionTok{predict}\NormalTok{(lm1,                           }\CommentTok{\#prediction using the linear model}
+        \AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{age=}\DecValTok{70}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+We now want to plot the predictions from the tree for ages 40 through 90
+together with the predictions from the linear model
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pred.tree }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(prune.t1,                      }
+                     \AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{age=}\FunctionTok{seq}\NormalTok{(}\DecValTok{40}\NormalTok{,}\DecValTok{90}\NormalTok{,}\DecValTok{1}\NormalTok{)))}
+
+\NormalTok{pred.lm   }\OtherTok{\textless{}{-}}\FunctionTok{predict}\NormalTok{(lm1,                          }
+                     \AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{age=}\FunctionTok{seq}\NormalTok{(}\DecValTok{40}\NormalTok{,}\DecValTok{90}\NormalTok{,}\DecValTok{1}\NormalTok{)))}
+
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\DecValTok{40}\NormalTok{,}\DecValTok{90}\NormalTok{,}\DecValTok{1}\NormalTok{), pred.tree , }
+     \AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{, }
+     \AttributeTok{xlab=}\StringTok{"age"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"bmd"}\NormalTok{)}
+
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\DecValTok{40}\NormalTok{,}\DecValTok{90}\NormalTok{,}\DecValTok{1}\NormalTok{), pred.lm, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+
+\FunctionTok{legend}\NormalTok{(}\DecValTok{45}\NormalTok{, }\FloatTok{1.2}\NormalTok{, }\AttributeTok{lty=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }
+       \FunctionTok{c}\NormalTok{(}\StringTok{"tree"}\NormalTok{, }\StringTok{"linear model"}\NormalTok{), }
+       \AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\StringTok{"red"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-8-1.pdf}}
+
+\subsection*{Task 3 - Fit a tree using Cross-validation}\label{task-3---fit-a-tree-using-cross-validation}
+\addcontentsline{toc}{subsection}{Task 3 - Fit a tree using Cross-validation}
+
+Let's fit now a tree to predict bone mineral density (BMD) based on AGE,
+SEX and BMI (BMI has to be computed) and compute the MSE.
+
+We will use the \texttt{caret} package with \texttt{method="rpart"}. Notice that the
+\texttt{caret} will prune the tree based on the cross-validated \texttt{cp}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#compute BMI}
+\NormalTok{bmd.data}\SpecialCharTok{$}\NormalTok{bmi }\OtherTok{\textless{}{-}}\NormalTok{ bmd.data}\SpecialCharTok{$}\NormalTok{weight\_kg }\SpecialCharTok{/}\NormalTok{ (bmd.data}\SpecialCharTok{$}\NormalTok{height\_cm}\SpecialCharTok{/}\DecValTok{100}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}
+
+\NormalTok{trctrl }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method =} \StringTok{"repeatedcv"}\NormalTok{, }\AttributeTok{number =} \DecValTok{10}\NormalTok{, }\AttributeTok{repeats =} \DecValTok{10}\NormalTok{)}
+\NormalTok{t2.caret  }\OtherTok{\textless{}{-}}  \FunctionTok{train}\NormalTok{(bmd }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ bmi, }
+                        \AttributeTok{data =}\NormalTok{ bmd.data, }
+                        \AttributeTok{method =} \StringTok{"rpart"}\NormalTok{,}
+                        \AttributeTok{trControl=}\NormalTok{trctrl,}
+                        \AttributeTok{tuneGrid =} \FunctionTok{expand.grid}\NormalTok{(}\AttributeTok{cp=}\FunctionTok{seq}\NormalTok{(}\FloatTok{0.001}\NormalTok{, }\FloatTok{0.1}\NormalTok{, }\FloatTok{0.001}\NormalTok{))}
+\NormalTok{                        )}
+
+\CommentTok{\#Plot the RMSE versus the CP}
+\FunctionTok{plot}\NormalTok{(t2.caret)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-9-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Plot the tree with the optimal CP}
+\FunctionTok{rpart.plot}\NormalTok{(t2.caret}\SpecialCharTok{$}\NormalTok{finalModel)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-9-2.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{t2.caret}\SpecialCharTok{$}\NormalTok{finalModel}\SpecialCharTok{$}\NormalTok{cptable}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           CP nsplit rel error
+## 1 0.26960125      0 1.0000000
+## 2 0.07577601      1 0.7303988
+## 3 0.06448418      2 0.6546227
+## 4 0.05400352      3 0.5901386
+## 5 0.02500000      4 0.5361350
+\end{verbatim}
+
+We can compare the RMSE and R2 of the tree above with the linear model
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{trctrl }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method =} \StringTok{"repeatedcv"}\NormalTok{, }\AttributeTok{number =} \DecValTok{5}\NormalTok{, }\AttributeTok{repeats =} \DecValTok{10}\NormalTok{)}
+\NormalTok{lm2.caret}\OtherTok{\textless{}{-}}  \FunctionTok{train}\NormalTok{(bmd }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ bmi, }
+                        \AttributeTok{data =}\NormalTok{ bmd.data, }
+                        \AttributeTok{method =} \StringTok{"lm"}\NormalTok{,}
+                        \AttributeTok{trControl=}\NormalTok{trctrl}
+\NormalTok{                        )}
+
+\NormalTok{lm2.caret}\SpecialCharTok{$}\NormalTok{results}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   intercept      RMSE  Rsquared       MAE     RMSESD RsquaredSD      MAESD
+## 1      TRUE 0.1383368 0.3292804 0.1046154 0.01878148  0.1145405 0.01176567
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#extracts the row with the RMSE and R2 from the table of results}
+\CommentTok{\#corresponding to the cp with lowest RMSE  (best tune)}
+\NormalTok{t2.caret}\SpecialCharTok{$}\NormalTok{results[t2.caret}\SpecialCharTok{$}\NormalTok{results}\SpecialCharTok{$}\NormalTok{cp}\SpecialCharTok{==}\NormalTok{t2.caret}\SpecialCharTok{$}\NormalTok{bestTune[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{], ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       cp     RMSE  Rsquared      MAE     RMSESD RsquaredSD      MAESD
+## 25 0.025 0.134802 0.3819951 0.104164 0.02665188  0.1769088 0.01977811
+\end{verbatim}
+
+\subsection*{Task 4 - Fit a classification tree}\label{task-4---fit-a-classification-tree}
+\addcontentsline{toc}{subsection}{Task 4 - Fit a classification tree}
+
+The \href{https://www.dropbox.com/s/da3by5vuzkv77xi/SBI.csv?dl=1}{SBI.csv} dataset
+contains the information of more than 2300 children that attended the
+emergency services with fever and were tested for serious bacterial infection.
+The variable \textbf{sbi} has
+4 categories: Not Applicable(no infection) / UTI / Pneum / Bact
+
+Create a new variable sbi.bin that identifies if a child was diagnosed
+or not with serious bacterial infection.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1999}\NormalTok{)}
+\NormalTok{sbi.data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"https://www.dropbox.com/s/wg32uj43fsy9yvd/SBI.csv?dl=1"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(sbi.data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        X                id          fever_hours           age               sex            wcc                prevAB    
+##  Min.   :   1.0   Min.   :   495   Min.   :   0.00   Min.   :0.010   Length   :2348   Min.   : 0.2368   Length   :2348  
+##  1st Qu.: 587.8   1st Qu.:133039   1st Qu.:  24.00   1st Qu.:0.760   N.unique :   2   1st Qu.: 7.9000   N.unique :   2  
+##  Median :1174.5   Median :160016   Median :  48.00   Median :1.525   N.blank  :   0   Median :11.6000   N.blank  :   0  
+##  Mean   :1174.5   Mean   :153698   Mean   :  80.06   Mean   :1.836   Min.nchar:   1   Mean   :12.6431   Min.nchar:   2  
+##  3rd Qu.:1761.2   3rd Qu.:196030   3rd Qu.:  78.00   3rd Qu.:2.752   Max.nchar:   1   3rd Qu.:16.1000   Max.nchar:   3  
+##  Max.   :2348.0   Max.   :229986   Max.   :3360.00   Max.   :4.990                    Max.   :58.7000                   
+##         sbi            pct                 crp        
+##  Length   :2348   Min.   :8.647e-03   Min.   :  0.00  
+##  N.unique :   4   1st Qu.:1.600e-01   1st Qu.: 11.83  
+##  N.blank  :   0   Median :7.600e-01   Median : 30.97  
+##  Min.nchar:   3   Mean   :3.744e+00   Mean   : 48.41  
+##  Max.nchar:  13   3rd Qu.:4.620e+00   3rd Qu.: 66.20  
+##                   Max.   :1.565e+02   Max.   :429.90
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a binary variable based on "sbi"}
+\NormalTok{sbi.data}\SpecialCharTok{$}\NormalTok{sbi.bin }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{ifelse}\NormalTok{(sbi.data}\SpecialCharTok{$}\NormalTok{sbi }\SpecialCharTok{==} \StringTok{"NotApplicable"}\NormalTok{, }\StringTok{"NOSBI"}\NormalTok{, }\StringTok{"SBI"}\NormalTok{))}
+\FunctionTok{table}\NormalTok{(sbi.data}\SpecialCharTok{$}\NormalTok{sbi, sbi.data}\SpecialCharTok{$}\NormalTok{sbi.bin)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                
+##                 NOSBI  SBI
+##   Bact              0   34
+##   NotApplicable  1752    0
+##   Pneu              0  251
+##   UTI               0  311
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#sbi.data.sub \textless{}{-} sbi.data[,c("sbi.bin","fever\_hours","age","sex","wcc","prevAB","pct","crp")]}
+\end{Highlighting}
+\end{Shaded}
+
+Now, build a classification tree to predict if a child has serious bacterial
+infection using \textbf{fever\_hours}, \textbf{wcc}, \textbf{age}, \textbf{prevAB}, \textbf{pct}, and \textbf{crp}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.tree }\OtherTok{\textless{}{-}} \FunctionTok{rpart}\NormalTok{(sbi.bin }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fever\_hours}\SpecialCharTok{+}\NormalTok{age}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{+}\NormalTok{wcc}\SpecialCharTok{+}\NormalTok{prevAB}\SpecialCharTok{+}\NormalTok{pct}\SpecialCharTok{+}\NormalTok{crp,}
+                  \AttributeTok{data =}\NormalTok{ sbi.data,}
+                  \AttributeTok{method =} \StringTok{"class"}
+\NormalTok{                  )}
+
+\FunctionTok{plotcp}\NormalTok{(sbi.tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-12-1.pdf}}
+
+Looking at the error associated with different values of \emph{CP} using the default
+options, it is not
+clear that we have the range that gives us the lowest error. We will use
+\texttt{part.control} to extend the tree and then prune it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.tree }\OtherTok{\textless{}{-}} \FunctionTok{rpart}\NormalTok{(sbi.bin }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fever\_hours}\SpecialCharTok{+}\NormalTok{age}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{+}\NormalTok{wcc}\SpecialCharTok{+}\NormalTok{prevAB}\SpecialCharTok{+}\NormalTok{pct}\SpecialCharTok{+}\NormalTok{crp,}
+                  \AttributeTok{data =}\NormalTok{ sbi.data,}
+                  \AttributeTok{method =} \StringTok{"class"}\NormalTok{,}
+                  \AttributeTok{control =} \FunctionTok{rpart.control}\NormalTok{(}
+                       \AttributeTok{minsplit =} \DecValTok{5}\NormalTok{,  }\CommentTok{\# min number of observ for a split }
+                       \AttributeTok{minbucket =} \DecValTok{5}\NormalTok{, }\CommentTok{\# min nr of obs in terminal nodes}
+                       \AttributeTok{cp=}\FloatTok{0.001}\NormalTok{)   }
+\NormalTok{                  )}
+
+\FunctionTok{plotcp}\NormalTok{(sbi.tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-13-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{printcp}\NormalTok{(sbi.tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Classification tree:
+## rpart(formula = sbi.bin ~ fever_hours + age + sex + wcc + prevAB + 
+##     pct + crp, data = sbi.data, method = "class", control = rpart.control(minsplit = 5, 
+##     minbucket = 5, cp = 0.001))
+## 
+## Variables actually used in tree construction:
+## [1] age         crp         fever_hours pct         prevAB      sex         wcc        
+## 
+## Root node error: 596/2348 = 0.25383
+## 
+## n= 2348 
+## 
+##           CP nsplit rel error  xerror     xstd
+## 1  0.0201342      0   1.00000 1.00000 0.035383
+## 2  0.0167785      4   0.91611 1.01174 0.035519
+## 3  0.0117450      5   0.89933 1.00000 0.035383
+## 4  0.0083893      6   0.88758 1.00503 0.035442
+## 5  0.0075503      9   0.86242 1.00168 0.035403
+## 6  0.0072707     11   0.84732 1.00168 0.035403
+## 7  0.0067114     14   0.82550 1.00168 0.035403
+## 8  0.0058725     15   0.81879 0.99329 0.035304
+## 9  0.0050336     19   0.79530 0.97819 0.035125
+## 10 0.0041946     21   0.78523 0.97987 0.035145
+## 11 0.0039150     25   0.76846 0.98993 0.035265
+## 12 0.0033557     28   0.75671 0.98490 0.035205
+## 13 0.0025168     34   0.73490 1.00000 0.035383
+## 14 0.0022371     36   0.72987 1.03020 0.035728
+## 15 0.0020973     39   0.72315 1.06376 0.036096
+## 16 0.0020134     62   0.66946 1.06376 0.036096
+## 17 0.0018876     67   0.65940 1.06376 0.036096
+## 18 0.0016779     80   0.62919 1.10738 0.036548
+## 19 0.0013982     97   0.60067 1.12248 0.036698
+## 20 0.0011186    111   0.58054 1.14430 0.036909
+## 21 0.0010000    114   0.57718 1.14765 0.036941
+\end{verbatim}
+
+If you have the same \texttt{set.seed(1999)} you should get \texttt{cp\ =\ 0.0050336} as the
+one with lowest error. We can now prune the tree accordingly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.prune.tree }\OtherTok{\textless{}{-}} \FunctionTok{prune}\NormalTok{(sbi.tree, }\AttributeTok{cp =} \FloatTok{0.0050336}\NormalTok{)}
+\FunctionTok{rpart.plot}\NormalTok{(sbi.prune.tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-14-1.pdf}}
+
+\textbf{TRY IT YOURSELF:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  Use the \texttt{caret} package to fit the tree above.
+\end{enumerate}
+
+See the solution code
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{trctrl      }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method =} \StringTok{"repeatedcv"}\NormalTok{, }
+                            \AttributeTok{number =} \DecValTok{5}\NormalTok{, }
+                            \AttributeTok{repeats =} \DecValTok{10}\NormalTok{,}
+                             \AttributeTok{classProbs =} \ConstantTok{TRUE}\NormalTok{,  }
+                            \AttributeTok{summaryFunction =}\NormalTok{ twoClassSummary)}
+
+\NormalTok{tree.sbi    }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(sbi.bin }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fever\_hours}\SpecialCharTok{+}\NormalTok{age}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{+}\NormalTok{wcc}\SpecialCharTok{+}\NormalTok{prevAB}\SpecialCharTok{+}\NormalTok{pct}\SpecialCharTok{+}\NormalTok{crp,}
+                            \AttributeTok{data =}\NormalTok{ sbi.data,}
+                            \AttributeTok{method =} \StringTok{"rpart"}\NormalTok{,}
+                            \AttributeTok{trControl =}\NormalTok{ trctrl,}
+                            \AttributeTok{tuneGrid=}\FunctionTok{expand.grid}\NormalTok{(}\AttributeTok{cp=}\FunctionTok{seq}\NormalTok{(.}\DecValTok{001}\NormalTok{, .}\DecValTok{1}\NormalTok{, .}\DecValTok{001}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in train.default(x, y, weights = w, ...): The metric "Accuracy" was not in the result set. ROC will be used
+## instead.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tree.sbi}
+\NormalTok{tree.sbi}\SpecialCharTok{$}\NormalTok{finalModel}
+\FunctionTok{rpart.plot}\NormalTok{(tree.sbi}\SpecialCharTok{$}\NormalTok{finalModel)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-15-1.pdf}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Compare the confusion matrix of the trees fitted with \texttt{rpart()} function
+  and the \texttt{caret} package.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Pred1 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(sbi.prune.tree, sbi.data, }\AttributeTok{type =} \StringTok{"class"}\NormalTok{ )}
+\NormalTok{Pred2 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(tree.sbi, sbi.data)}
+
+\FunctionTok{table}\NormalTok{(sbi.data}\SpecialCharTok{$}\NormalTok{sbi.bin, Pred1)}
+\FunctionTok{table}\NormalTok{(sbi.data}\SpecialCharTok{$}\NormalTok{sbi.bin, Pred2)}
+
+\FunctionTok{library}\NormalTok{(psych)}
+\FunctionTok{cohen.kappa}\NormalTok{(}\FunctionTok{table}\NormalTok{(sbi.data}\SpecialCharTok{$}\NormalTok{sbi.bin, Pred1))}
+\FunctionTok{cohen.kappa}\NormalTok{(}\FunctionTok{table}\NormalTok{(sbi.data}\SpecialCharTok{$}\NormalTok{sbi.bin, Pred2))}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Exercises}\label{CART4}
+
+Solve the following exercises:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  The dataset \href{https://www.dropbox.com/s/cwkw3p91zyizcqz/SA_heart.csv?dl=1}{SA\_heart.csv}
+  contains on coronary heart disease status (variable \emph{chd}) and several risk
+  factors including the cumulative tobacco consumption \emph{tobacco}, systolic \emph{sbp},
+  and \emph{age}
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Fit a classification tree for \emph{chd} using
+  \emph{tobacco},\emph{sbp} and \emph{age}
+\item
+  Find the AUC ROC and confusion matrix for the tree
+\item
+  What is the predicted probability of coronary heart disease for someone
+  with no tobacco consumption, sbp=132 and 45 years old?
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  The dataset \href{https://www.dropbox.com/s/jeqdtq04zl9f0er/FEV.csv?dl=1}{fev.csv}
+  contains the measurements of forced expiratory volume (FEV) tests,
+  evaluating the pulmonary capacity in 654 children and young adults.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Fit a regression tree to predict \emph{fev} using \emph{age}, \emph{height} and \emph{sex}.
+\item
+  Compare the MSE of the tree with a GAM model for \emph{fev} with \emph{sex} and
+  smoothing splines for \emph{height} and \emph{age}.
+\end{enumerate}
+
+\chapter{Bagging}\label{bagging}
+
+\section{Introduction}\label{BA1}
+
+Trees are quite flexible leading to non biased prediction, and intuitive to
+interpret. However, they tend to have a high variance, meaning that a small
+change in the data may result in a different tree.
+
+\textbf{Bagging} is an approach that tries to ``stabilise'' the predictions from trees.
+Rather that fitting a single tree to the data, we will bootstrap the data and
+for each bootstrap sample, we will fit a tree. The final prediction is an
+average of all the predictions of the trees, if the outcome is continuous, or
+the class that was most common among the predictions, if the outcome is
+categorical
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/bagging.png}}
+
+The downside of this approach is that we lose the interpretability of a
+single tree. The result is a prediction from what in machine learning is
+sometimes referred as a \emph{black box} method.
+
+We can however use the multiple trees to create a metric of variable importance.
+The idea is that a variable that appears early in many trees is ``more''
+important than a predictor that consistently appears further down in the trees.
+
+\section{Readings}\label{BA2}
+
+Read the following chapters of \emph{An introduction to statistical learning}:
+
+\begin{itemize}
+\tightlist
+\item
+  8.2.1 Bagging
+\end{itemize}
+
+\section{Practice session}\label{BA3}
+
+\subsection*{Task 1 - Use bagging to build a classification model}\label{task-1---use-bagging-to-build-a-classification-model}
+\addcontentsline{toc}{subsection}{Task 1 - Use bagging to build a classification model}
+
+The \href{https://www.dropbox.com/s/da3by5vuzkv77xi/SBI.csv?dl=1}{SBI.csv} dataset
+contains the information of more than 2300 children that attended the
+emergency services with fever and were tested for serious bacterial infection.
+The variable \textbf{sbi} has
+4 categories: Not Applicable(no infection) / UTI / Pneum / Bact
+
+Create a new variable sbi.bin that identifies if a child was diagnosed
+or not with serious bacterial infection.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"https://www.dropbox.com/s/wg32uj43fsy9yvd/SBI.csv?dl=1"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(sbi.data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        X                id          fever_hours           age               sex            wcc                prevAB    
+##  Min.   :   1.0   Min.   :   495   Min.   :   0.00   Min.   :0.010   Length   :2348   Min.   : 0.2368   Length   :2348  
+##  1st Qu.: 587.8   1st Qu.:133039   1st Qu.:  24.00   1st Qu.:0.760   N.unique :   2   1st Qu.: 7.9000   N.unique :   2  
+##  Median :1174.5   Median :160016   Median :  48.00   Median :1.525   N.blank  :   0   Median :11.6000   N.blank  :   0  
+##  Mean   :1174.5   Mean   :153698   Mean   :  80.06   Mean   :1.836   Min.nchar:   1   Mean   :12.6431   Min.nchar:   2  
+##  3rd Qu.:1761.2   3rd Qu.:196030   3rd Qu.:  78.00   3rd Qu.:2.752   Max.nchar:   1   3rd Qu.:16.1000   Max.nchar:   3  
+##  Max.   :2348.0   Max.   :229986   Max.   :3360.00   Max.   :4.990                    Max.   :58.7000                   
+##         sbi            pct                 crp        
+##  Length   :2348   Min.   :8.647e-03   Min.   :  0.00  
+##  N.unique :   4   1st Qu.:1.600e-01   1st Qu.: 11.83  
+##  N.blank  :   0   Median :7.600e-01   Median : 30.97  
+##  Min.nchar:   3   Mean   :3.744e+00   Mean   : 48.41  
+##  Max.nchar:  13   3rd Qu.:4.620e+00   3rd Qu.: 66.20  
+##                   Max.   :1.565e+02   Max.   :429.90
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a binary variable based on "sbi"}
+\NormalTok{sbi.data}\SpecialCharTok{$}\NormalTok{sbi.bin }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{ifelse}\NormalTok{(sbi.data}\SpecialCharTok{$}\NormalTok{sbi }\SpecialCharTok{==} \StringTok{"NotApplicable"}\NormalTok{, }\StringTok{"NOSBI"}\NormalTok{, }\StringTok{"SBI"}\NormalTok{))}
+\FunctionTok{table}\NormalTok{(sbi.data}\SpecialCharTok{$}\NormalTok{sbi, sbi.data}\SpecialCharTok{$}\NormalTok{sbi.bin)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                
+##                 NOSBI  SBI
+##   Bact              0   34
+##   NotApplicable  1752    0
+##   Pneu              0  251
+##   UTI               0  311
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#sbi.data.sub \textless{}{-} sbi.data[,c("sbi.bin","fever\_hours","age","sex","wcc","prevAB","pct","crp")]}
+\end{Highlighting}
+\end{Shaded}
+
+Now, let's using bagging to predict if a child has serious bacterial
+infection with the perdictors \textbf{fever\_hours}, \textbf{wcc}, \textbf{age}, \textbf{prevAB},
+\textbf{pct}, and \textbf{crp}.
+
+However, we will leave 200 observations out to test the model. We will
+use the \texttt{bagging()} function from the \texttt{ipred} package and fit 100 trees.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(caret)}
+\FunctionTok{library}\NormalTok{(ipred)  }\CommentTok{\#includes the bagging function }
+\FunctionTok{library}\NormalTok{(rpart)}
+\FunctionTok{library}\NormalTok{(psych) }\CommentTok{\# for the kappa statistics}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1999}\NormalTok{)}
+
+\NormalTok{sbi.bag }\OtherTok{\textless{}{-}} \FunctionTok{bagging}\NormalTok{(sbi.bin }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fever\_hours}\SpecialCharTok{+}\NormalTok{age}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{+}\NormalTok{wcc}\SpecialCharTok{+}\NormalTok{prevAB}\SpecialCharTok{+}\NormalTok{pct}\SpecialCharTok{+}\NormalTok{crp,}
+                  \AttributeTok{data =}\NormalTok{ sbi.data[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{500}\SpecialCharTok{:}\DecValTok{700}\NormalTok{),],      }\CommentTok{\#not using rows 500 to 700}
+                  \AttributeTok{nbagg=}\DecValTok{100}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We will also fit one single tree to use as a comparison.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.tree }\OtherTok{\textless{}{-}} \FunctionTok{rpart}\NormalTok{(sbi.bin }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fever\_hours}\SpecialCharTok{+}\NormalTok{age}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{+}\NormalTok{wcc}\SpecialCharTok{+}\NormalTok{prevAB}\SpecialCharTok{+}\NormalTok{pct}\SpecialCharTok{+}\NormalTok{crp,}
+                  \AttributeTok{data =}\NormalTok{ sbi.data[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{500}\SpecialCharTok{:}\DecValTok{700}\NormalTok{),], }\AttributeTok{method=}\StringTok{"class"}\NormalTok{, }
+                  \AttributeTok{control =} \FunctionTok{rpart.control}\NormalTok{(}\AttributeTok{cp=}\NormalTok{.}\DecValTok{001}\NormalTok{))}
+\FunctionTok{printcp}\NormalTok{(sbi.tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Classification tree:
+## rpart(formula = sbi.bin ~ fever_hours + age + sex + wcc + prevAB + 
+##     pct + crp, data = sbi.data[-c(500:700), ], method = "class", 
+##     control = rpart.control(cp = 0.001))
+## 
+## Variables actually used in tree construction:
+## [1] age         crp         fever_hours pct         prevAB      sex         wcc        
+## 
+## Root node error: 499/2147 = 0.23242
+## 
+## n= 2147 
+## 
+##          CP nsplit rel error  xerror     xstd
+## 1  0.021042      0   1.00000 1.00000 0.039220
+## 2  0.018036      2   0.95792 0.98998 0.039083
+## 3  0.015030      3   0.93988 0.98597 0.039027
+## 4  0.010020      5   0.90982 0.98998 0.039083
+## 5  0.008016      7   0.88978 0.96593 0.038745
+## 6  0.007014     10   0.86573 0.97595 0.038887
+## 7  0.006012     14   0.83166 0.98196 0.038971
+## 8  0.004509     17   0.81363 0.98597 0.039027
+## 9  0.004008     21   0.79559 0.99198 0.039110
+## 10 0.003340     22   0.79158 0.99198 0.039110
+## 11 0.003006     27   0.77355 1.01804 0.039464
+## 12 0.002672     31   0.76152 1.02004 0.039491
+## 13 0.002004     39   0.73747 1.03006 0.039624
+## 14 0.001002     54   0.70741 1.10421 0.040558
+## 15 0.001000     56   0.70541 1.11623 0.040701
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.tree }\OtherTok{\textless{}{-}} \FunctionTok{prune}\NormalTok{(sbi.tree, }\AttributeTok{cp=}\FloatTok{0.008016}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We can now compute the confusion matrix for both approaches, using the
+200 cases left out from the model fitting.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.test.data }\OtherTok{\textless{}{-}}\NormalTok{ sbi.data[}\FunctionTok{c}\NormalTok{(}\DecValTok{500}\SpecialCharTok{:}\DecValTok{700}\NormalTok{),]}
+
+\CommentTok{\#confusion matrix for 1 tree}
+\FunctionTok{table}\NormalTok{(sbi.test.data}\SpecialCharTok{$}\NormalTok{sbi.bin, }
+    \FunctionTok{predict}\NormalTok{(sbi.tree, sbi.test.data, }\AttributeTok{type=}\StringTok{"class"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        
+##         NOSBI SBI
+##   NOSBI    94  10
+##   SBI      88   9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cohen.kappa}\NormalTok{(}\FunctionTok{table}\NormalTok{(sbi.test.data}\SpecialCharTok{$}\NormalTok{sbi.bin, }
+    \FunctionTok{predict}\NormalTok{(sbi.tree, sbi.test.data, }\AttributeTok{type=}\StringTok{"class"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call: cohen.kappa1(x = x, w = w, n.obs = n.obs, alpha = alpha, levels = levels, 
+##     w.exp = w.exp)
+## 
+## Cohen Kappa and Weighted Kappa correlation coefficients and confidence boundaries 
+##                   lower estimate upper
+## unweighted kappa -0.087  -0.0035  0.08
+## weighted kappa   -0.087  -0.0035  0.08
+## 
+##  Number of subjects = 201
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#confusion matrix for bagged trees}
+\FunctionTok{table}\NormalTok{(sbi.test.data}\SpecialCharTok{$}\NormalTok{sbi.bin, }
+      \FunctionTok{predict}\NormalTok{(sbi.bag, sbi.test.data, }\AttributeTok{type=}\StringTok{"class"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        
+##         NOSBI SBI
+##   NOSBI    95   9
+##   SBI      78  19
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cohen.kappa}\NormalTok{(}\FunctionTok{table}\NormalTok{(sbi.test.data}\SpecialCharTok{$}\NormalTok{sbi.bin, }
+      \FunctionTok{predict}\NormalTok{(sbi.bag, sbi.test.data, }\AttributeTok{type=}\StringTok{"class"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call: cohen.kappa1(x = x, w = w, n.obs = n.obs, alpha = alpha, levels = levels, 
+##     w.exp = w.exp)
+## 
+## Cohen Kappa and Weighted Kappa correlation coefficients and confidence boundaries 
+##                    lower estimate upper
+## unweighted kappa -0.0047    0.091  0.19
+## weighted kappa   -0.0047    0.091  0.19
+## 
+##  Number of subjects = 201
+\end{verbatim}
+
+The \emph{bagging} improved the prediction ability.
+
+\textbf{TRY IT YOURSELF:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  Use the \texttt{caret} package to fit the model above with bagging. You can use
+  the entire dataset and compute the cross-validated AUC-ROC and confusion matrix
+\end{enumerate}
+
+See the solution code
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1777}\NormalTok{)}
+\NormalTok{trctrl      }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method =} \StringTok{"repeatedcv"}\NormalTok{, }
+                            \AttributeTok{number =} \DecValTok{10}\NormalTok{,}
+                             \AttributeTok{classProbs =} \ConstantTok{TRUE}\NormalTok{,  }
+                            \AttributeTok{summaryFunction =}\NormalTok{ twoClassSummary)}
+
+\NormalTok{bag.sbi    }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(sbi.bin }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fever\_hours}\SpecialCharTok{+}\NormalTok{age}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{+}\NormalTok{wcc}\SpecialCharTok{+}\NormalTok{prevAB}\SpecialCharTok{+}\NormalTok{pct}\SpecialCharTok{+}\NormalTok{crp,}
+                            \AttributeTok{data =}\NormalTok{ sbi.data,}
+                            \AttributeTok{method =} \StringTok{"treebag"}\NormalTok{,}
+                            \AttributeTok{trControl =}\NormalTok{ trctrl,}
+                            \AttributeTok{nbagg =} \DecValTok{100}\NormalTok{,}
+                            \AttributeTok{metric=}\StringTok{"ROC"}\NormalTok{)}
+\NormalTok{bag.sbi}
+\FunctionTok{confusionMatrix}\NormalTok{(bag.sbi)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection*{Task 2 - Compute the variable importance}\label{task-2---compute-the-variable-importance}
+\addcontentsline{toc}{subsection}{Task 2 - Compute the variable importance}
+
+Let's compute the variable importance based on the \texttt{sbi.bag} bagging model.
+The function \texttt{varImp()} from the \texttt{caret} package, can be applied to the
+result of the \texttt{bagging()} function
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pred.imp }\OtherTok{\textless{}{-}} \FunctionTok{varImp}\NormalTok{(sbi.bag)}
+\NormalTok{pred.imp}
+
+\CommentTok{\#You can also plot the results}
+\FunctionTok{barplot}\NormalTok{(pred.imp}\SpecialCharTok{$}\NormalTok{Overall, }
+        \AttributeTok{names.arg =} \FunctionTok{row.names}\NormalTok{(pred.imp))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-22-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#If you use the caret package}
+\CommentTok{\#to fit the model, you can use the ggplot() to create an alternative plot}
+
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\NormalTok{pred.imp.caret }\OtherTok{\textless{}{-}} \FunctionTok{varImp}\NormalTok{(bag.sbi)}
+\FunctionTok{ggplot}\NormalTok{(pred.imp.caret) }\CommentTok{\#This is a standard ggplot object which can be edited in the usual way}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-22-2.pdf}}
+
+\section{Exercises}\label{BA4}
+
+Solve the following exercises:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  The dataset \href{https://www.dropbox.com/s/cwkw3p91zyizcqz/SA_heart.csv?dl=1}{SA\_heart.csv}
+  contains on coronary heart disease status (variable \emph{chd}) and several risk
+  factors including the cumulative tobacco consumption \emph{tobacco}, systolic \emph{sbp},
+  and \emph{age}
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Build a predictive model by bagging 100 tree to classify \emph{chd} using
+  \emph{tobacco},\emph{sbp} and \emph{age}
+\item
+  Find the cross-validated AUC ROC and confusion matrix for the model above
+  and compare them with ones obtained from logistic regression.
+\item
+  Which is the most important predictor?
+\item
+  What is the predicted probability of coronary heart disease for someone
+  with no tobacco consumption, sbp=132 and 45 years old?
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  The dataset \href{https://www.dropbox.com/s/jeqdtq04zl9f0er/FEV.csv?dl=1}{fev.csv}
+  contains the measurements of forced expiratory volume (FEV) tests,
+  evaluating the pulmonary capacity in 654 children and young adults.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Fit a model based on bagging 200 tree to predict \emph{fev} using
+  \emph{age}, \emph{height} and \emph{sex}.
+\item
+  Plot the variables importance.
+\item
+  Compare the MSE of the model above with a GAM model for \emph{fev} with \emph{sex} and
+  smoothing splines for \emph{height} and \emph{age}.
+\end{enumerate}
+
+\chapter{Random Forests}\label{random-forests}
+
+\section{Introduction}\label{RF1}
+
+We have seen that \textbf{bagging} pools together the results of different trees
+based on bootstrap samples. These trees will tend to be highly correlated.
+\textbf{Random forests} use a the same principle of bagged trees but with a
+difference in the construction of each tree. When growing a tree from one
+bootstrap sample, instead of evaluating all the predictors when deciding to
+split a node, \textbf{Random forests} only use a subset of the predictors
+randomly selected.
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/rf.png}}
+
+So, let's say that we have \(p\) predictors and rather than evaluating all the
+predictors at each knot, we select, for example 3 random predictors at each
+knot. Notice that the next knot will evaluate 3 different random predictors (
+unless, we get the same 3 by chance). This will uncorrelated the trees and
+produce better predictions.
+
+We can choose not only the number of trees but also the number of variables
+that will be considered at each node. A recommended option is to select
+\(\sqrt(p)\) variables from the \(p\) predictors in a classification problem, and
+\(p/3\) in a regression problem.
+
+\section{Readings}\label{RF}
+
+Read the following chapters of \emph{An introduction to statistical learning}:
+
+\begin{itemize}
+\tightlist
+\item
+  8.2.2 Random Forests
+\end{itemize}
+
+\section{Practice session}\label{RF3}
+
+\subsection*{Task 1 - Build a Random Forest model}\label{task-1---build-a-random-forest-model}
+\addcontentsline{toc}{subsection}{Task 1 - Build a Random Forest model}
+
+The \href{https://www.dropbox.com/s/jg628ezqo79pn3y/SBI.csv?dl=0}{SBI.csv} dataset
+contains the information of more than 2300 children that attended the
+emergency services with fever and were tested for serious bacterial infection.
+The variable \textbf{sbi} has
+4 categories: Not Applicable(no infection) / UTI / Pneum / Bact
+
+Create a new variable sbi.bin that identifies if a child was diagnosed
+or not with serious bacterial infection.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"https://www.dropbox.com/s/wg32uj43fsy9yvd/SBI.csv?dl=1"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(sbi.data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        X                id          fever_hours           age               sex            wcc                prevAB    
+##  Min.   :   1.0   Min.   :   495   Min.   :   0.00   Min.   :0.010   Length   :2348   Min.   : 0.2368   Length   :2348  
+##  1st Qu.: 587.8   1st Qu.:133039   1st Qu.:  24.00   1st Qu.:0.760   N.unique :   2   1st Qu.: 7.9000   N.unique :   2  
+##  Median :1174.5   Median :160016   Median :  48.00   Median :1.525   N.blank  :   0   Median :11.6000   N.blank  :   0  
+##  Mean   :1174.5   Mean   :153698   Mean   :  80.06   Mean   :1.836   Min.nchar:   1   Mean   :12.6431   Min.nchar:   2  
+##  3rd Qu.:1761.2   3rd Qu.:196030   3rd Qu.:  78.00   3rd Qu.:2.752   Max.nchar:   1   3rd Qu.:16.1000   Max.nchar:   3  
+##  Max.   :2348.0   Max.   :229986   Max.   :3360.00   Max.   :4.990                    Max.   :58.7000                   
+##         sbi            pct                 crp        
+##  Length   :2348   Min.   :8.647e-03   Min.   :  0.00  
+##  N.unique :   4   1st Qu.:1.600e-01   1st Qu.: 11.83  
+##  N.blank  :   0   Median :7.600e-01   Median : 30.97  
+##  Min.nchar:   3   Mean   :3.744e+00   Mean   : 48.41  
+##  Max.nchar:  13   3rd Qu.:4.620e+00   3rd Qu.: 66.20  
+##                   Max.   :1.565e+02   Max.   :429.90
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a binary variable based on "sbi"}
+\NormalTok{sbi.data}\SpecialCharTok{$}\NormalTok{sbi.bin }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{ifelse}\NormalTok{(sbi.data}\SpecialCharTok{$}\NormalTok{sbi }\SpecialCharTok{==} \StringTok{"NotApplicable"}\NormalTok{, }\StringTok{"NOSBI"}\NormalTok{, }\StringTok{"SBI"}\NormalTok{))}
+\FunctionTok{table}\NormalTok{(sbi.data}\SpecialCharTok{$}\NormalTok{sbi, sbi.data}\SpecialCharTok{$}\NormalTok{sbi.bin)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                
+##                 NOSBI  SBI
+##   Bact              0   34
+##   NotApplicable  1752    0
+##   Pneu              0  251
+##   UTI               0  311
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#sbi.data.sub \textless{}{-} sbi.data[,c("sbi.bin","fever\_hours","age","sex","wcc","prevAB","pct","crp")]}
+\end{Highlighting}
+\end{Shaded}
+
+Now, let's using a Random Forest to predict if a child has serious bacterial
+infection with the predictors \textbf{fever\_hours}, \textbf{wcc}, \textbf{age}, \textbf{prevAB},
+\textbf{pct}, and \textbf{crp}.
+
+However, we will leave 200 observations out to test the model. We will
+use the \texttt{randomForest()} function from the \texttt{randomForest} package and fit
+100 trees with 2 predictors at each node (\(\sqrt(7)=2.6\))
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(caret)}
+\FunctionTok{library}\NormalTok{(randomForest)  }\CommentTok{\#includes the randomForest function }
+\FunctionTok{library}\NormalTok{(rpart)}
+\FunctionTok{library}\NormalTok{(psych) }\CommentTok{\# for the kappa statistics}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1999}\NormalTok{)}
+
+\NormalTok{rf.sbi }\OtherTok{\textless{}{-}} \FunctionTok{randomForest}\NormalTok{(sbi.bin }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fever\_hours}\SpecialCharTok{+}\NormalTok{age}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{+}\NormalTok{wcc}\SpecialCharTok{+}\NormalTok{prevAB}\SpecialCharTok{+}\NormalTok{pct}\SpecialCharTok{+}\NormalTok{crp,}
+                  \AttributeTok{data =}\NormalTok{ sbi.data[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{500}\SpecialCharTok{:}\DecValTok{700}\NormalTok{),],      }\CommentTok{\#not using rows 500 to 700}
+                  \AttributeTok{ntree=}\DecValTok{100}\NormalTok{, }\AttributeTok{mtry=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We will also fit one single tree to use as a comparison.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.tree }\OtherTok{\textless{}{-}} \FunctionTok{rpart}\NormalTok{(sbi.bin }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fever\_hours}\SpecialCharTok{+}\NormalTok{age}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{+}\NormalTok{wcc}\SpecialCharTok{+}\NormalTok{prevAB}\SpecialCharTok{+}\NormalTok{pct}\SpecialCharTok{+}\NormalTok{crp,}
+                  \AttributeTok{data =}\NormalTok{ sbi.data[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{500}\SpecialCharTok{:}\DecValTok{700}\NormalTok{),], }\AttributeTok{method=}\StringTok{"class"}\NormalTok{, }
+                  \AttributeTok{control =} \FunctionTok{rpart.control}\NormalTok{(}\AttributeTok{cp=}\NormalTok{.}\DecValTok{001}\NormalTok{))}
+\FunctionTok{printcp}\NormalTok{(sbi.tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Classification tree:
+## rpart(formula = sbi.bin ~ fever_hours + age + sex + wcc + prevAB + 
+##     pct + crp, data = sbi.data[-c(500:700), ], method = "class", 
+##     control = rpart.control(cp = 0.001))
+## 
+## Variables actually used in tree construction:
+## [1] age         crp         fever_hours pct         prevAB      sex         wcc        
+## 
+## Root node error: 499/2147 = 0.23242
+## 
+## n= 2147 
+## 
+##          CP nsplit rel error xerror     xstd
+## 1  0.021042      0   1.00000 1.0000 0.039220
+## 2  0.018036      2   0.95792 1.0040 0.039275
+## 3  0.015030      3   0.93988 1.0100 0.039357
+## 4  0.010020      5   0.90982 1.0020 0.039248
+## 5  0.008016      7   0.88978 1.0100 0.039357
+## 6  0.007014     10   0.86573 1.0120 0.039384
+## 7  0.006012     14   0.83166 1.0060 0.039302
+## 8  0.004509     17   0.81363 1.0140 0.039411
+## 9  0.004008     21   0.79559 1.0261 0.039571
+## 10 0.003340     22   0.79158 1.0220 0.039518
+## 11 0.003006     27   0.77355 1.0261 0.039571
+## 12 0.002672     31   0.76152 1.0301 0.039624
+## 13 0.002004     39   0.73747 1.0501 0.039885
+## 14 0.001002     54   0.70741 1.1303 0.040866
+## 15 0.001000     56   0.70541 1.1703 0.041321
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.tree }\OtherTok{\textless{}{-}} \FunctionTok{prune}\NormalTok{(sbi.tree, }\AttributeTok{cp=}\FloatTok{0.008016}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We can now compute the confusion matrix for both approaches, using the
+200 cases left out from the model fitting.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sbi.test.data }\OtherTok{\textless{}{-}}\NormalTok{ sbi.data[}\FunctionTok{c}\NormalTok{(}\DecValTok{500}\SpecialCharTok{:}\DecValTok{700}\NormalTok{),]}
+
+\CommentTok{\#confusion matrix for 1 tree}
+\FunctionTok{table}\NormalTok{(sbi.test.data}\SpecialCharTok{$}\NormalTok{sbi.bin, }
+    \FunctionTok{predict}\NormalTok{(sbi.tree, sbi.test.data, }\AttributeTok{type=}\StringTok{"class"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        
+##         NOSBI SBI
+##   NOSBI    94  10
+##   SBI      88   9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cohen.kappa}\NormalTok{(}\FunctionTok{table}\NormalTok{(sbi.test.data}\SpecialCharTok{$}\NormalTok{sbi.bin, }
+    \FunctionTok{predict}\NormalTok{(sbi.tree, sbi.test.data, }\AttributeTok{type=}\StringTok{"class"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call: cohen.kappa1(x = x, w = w, n.obs = n.obs, alpha = alpha, levels = levels, 
+##     w.exp = w.exp)
+## 
+## Cohen Kappa and Weighted Kappa correlation coefficients and confidence boundaries 
+##                   lower estimate upper
+## unweighted kappa -0.087  -0.0035  0.08
+## weighted kappa   -0.087  -0.0035  0.08
+## 
+##  Number of subjects = 201
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#confusion matrix for RF}
+\FunctionTok{table}\NormalTok{(sbi.test.data}\SpecialCharTok{$}\NormalTok{sbi.bin, }
+      \FunctionTok{predict}\NormalTok{(rf.sbi, sbi.test.data, }\AttributeTok{type=}\StringTok{"class"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        
+##         NOSBI SBI
+##   NOSBI    98   6
+##   SBI      84  13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cohen.kappa}\NormalTok{(}\FunctionTok{table}\NormalTok{(sbi.test.data}\SpecialCharTok{$}\NormalTok{sbi.bin, }
+      \FunctionTok{predict}\NormalTok{(rf.sbi, sbi.test.data, }\AttributeTok{type=}\StringTok{"class"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call: cohen.kappa1(x = x, w = w, n.obs = n.obs, alpha = alpha, levels = levels, 
+##     w.exp = w.exp)
+## 
+## Cohen Kappa and Weighted Kappa correlation coefficients and confidence boundaries 
+##                    lower estimate upper
+## unweighted kappa -0.0054    0.078  0.16
+## weighted kappa   -0.0054    0.078  0.16
+## 
+##  Number of subjects = 201
+\end{verbatim}
+
+The \emph{random forest} has a better prediction ability.
+
+\textbf{TRY IT YOURSELF:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  Use the \texttt{caret} package to fit the model above. You can use
+  the entire dataset and compute the cross-validated AUC-ROC and confusion matrix
+\end{enumerate}
+
+See the solution code
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1777}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(caret)}
+\NormalTok{trctrl      }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method =} \StringTok{"repeatedcv"}\NormalTok{, }
+                            \AttributeTok{number =} \DecValTok{10}\NormalTok{,}
+                            \AttributeTok{repeats =} \DecValTok{5}\NormalTok{,}
+                             \AttributeTok{classProbs =} \ConstantTok{TRUE}\NormalTok{,  }
+                            \AttributeTok{summaryFunction =}\NormalTok{ twoClassSummary)}
+
+\NormalTok{sbi.rf    }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(sbi.bin }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fever\_hours}\SpecialCharTok{+}\NormalTok{age}\SpecialCharTok{+}\NormalTok{sex}\SpecialCharTok{+}\NormalTok{wcc}\SpecialCharTok{+}\NormalTok{prevAB}\SpecialCharTok{+}\NormalTok{pct}\SpecialCharTok{+}\NormalTok{crp,}
+                            \AttributeTok{data =}\NormalTok{ sbi.data,}
+                            \AttributeTok{method =} \StringTok{"rf"}\NormalTok{,}
+                            \AttributeTok{trControl =}\NormalTok{ trctrl,}
+                            \AttributeTok{ntree =} \DecValTok{100}\NormalTok{,}
+                            \AttributeTok{tuneGrid =} \FunctionTok{expand.grid}\NormalTok{(}\AttributeTok{mtry =} \FunctionTok{sqrt}\NormalTok{(}\DecValTok{7}\NormalTok{)),}
+                            \AttributeTok{metric=}\StringTok{"ROC"}\NormalTok{)}
+\NormalTok{sbi.rf}
+\FunctionTok{confusionMatrix}\NormalTok{(sbi.rf)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection*{Task 2 - Compute the variables importance}\label{task-2---compute-the-variables-importance}
+\addcontentsline{toc}{subsection}{Task 2 - Compute the variables importance}
+
+Let's compute the variable importance based on the \texttt{rf.sbi} random forest model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pred.imp }\OtherTok{\textless{}{-}} \FunctionTok{varImp}\NormalTok{(rf.sbi)}
+\NormalTok{pred.imp}
+
+\CommentTok{\#You can also plot the results}
+\FunctionTok{barplot}\NormalTok{(pred.imp}\SpecialCharTok{$}\NormalTok{Overall, }
+        \AttributeTok{names.arg =} \FunctionTok{row.names}\NormalTok{(pred.imp))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-28-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#If you use the caret package to fit the model, you can use the ggplot() to create an alternative plot}
+
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\NormalTok{pred.imp.caret }\OtherTok{\textless{}{-}} \FunctionTok{varImp}\NormalTok{(sbi.rf)}
+\FunctionTok{ggplot}\NormalTok{(pred.imp.caret) }\CommentTok{\#This is a standard ggplot object which can be edited in the usual way}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-28-2.pdf}}
+
+\section{Exercises}\label{RF4}
+
+Solve the following exercises:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  The dataset \href{https://www.dropbox.com/s/cwkw3p91zyizcqz/SA_heart.csv?dl=1}{SA\_heart.csv}
+  contains on coronary heart disease status (variable \emph{chd}) and several risk
+  factors including the cumulative tobacco consumption \emph{tobacco}, systolic \emph{sbp},
+  and \emph{age}
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Build a predictive model using a random forest with 100 trees to classify
+  \emph{chd} using
+  \emph{tobacco},\emph{sbp} and \emph{age}
+\item
+  Find the cross-validated AUC ROC and confusion matrix for the model above
+  and compare them with ones obtained from logistic regression and bagging.
+\item
+  Which is the most important predictor?
+\item
+  What is the predicted probability of coronary heart disease for someone
+  with no tobacco consumption, sbp=132 and 45 years old?
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  The dataset \href{https://www.dropbox.com/s/jeqdtq04zl9f0er/FEV.csv?dl=1}{fev.csv}
+  contains the measurements of forced expiratory volume (FEV) tests,
+  evaluating the pulmonary capacity in 654 children and young adults.
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\item
+  Fit a model based on random forest with 200 tree to predict \emph{fev} using
+  \emph{age}, \emph{height} and \emph{sex}.
+\item
+  Plot the variables importance.
+\item
+  Compare the MSE of the model above with a GAM model for \emph{fev} with \emph{sex}
+  and smoothing splines for \emph{height} and \emph{age}.
+\end{enumerate}
+
+\end{document}
