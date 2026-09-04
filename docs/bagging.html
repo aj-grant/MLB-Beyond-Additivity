@@ -239,8 +239,8 @@ The variable <strong>sbi</strong> has
 4 categories: Not Applicable(no infection) / UTI / Pneum / Bact</p>
 <p>Create a new variable sbi.bin that identifies if a child was diagnosed
 or not with serious bacterial infection.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="bagging.html#cb44-1" tabindex="-1"></a>sbi.data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/wg32uj43fsy9yvd/SBI.csv?dl=1&quot;</span>)</span>
-<span id="cb44-2"><a href="bagging.html#cb44-2" tabindex="-1"></a><span class="fu">summary</span>(sbi.data)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="bagging.html#cb36-1" tabindex="-1"></a>sbi.data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/wg32uj43fsy9yvd/SBI.csv?dl=1&quot;</span>)</span>
+<span id="cb36-2"><a href="bagging.html#cb36-2" tabindex="-1"></a><span class="fu">summary</span>(sbi.data)</span></code></pre></div>
 <pre><code>##        X                id          fever_hours           age               sex            wcc                prevAB    
 ##  Min.   :   1.0   Min.   :   495   Min.   :   0.00   Min.   :0.010   Length   :2348   Min.   : 0.2368   Length   :2348  
 ##  1st Qu.: 587.8   1st Qu.:133039   1st Qu.:  24.00   1st Qu.:0.760   N.unique :   2   1st Qu.: 7.9000   N.unique :   2  
@@ -255,35 +255,35 @@ or not with serious bacterial infection.</p>
 ##  Min.nchar:   3   Mean   :3.744e+00   Mean   : 48.41  
 ##  Max.nchar:  13   3rd Qu.:4.620e+00   3rd Qu.: 66.20  
 ##                   Max.   :1.565e+02   Max.   :429.90</code></pre>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="bagging.html#cb46-1" tabindex="-1"></a><span class="co"># Create a binary variable based on &quot;sbi&quot;</span></span>
-<span id="cb46-2"><a href="bagging.html#cb46-2" tabindex="-1"></a>sbi.data<span class="sc">$</span>sbi.bin <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(sbi.data<span class="sc">$</span>sbi <span class="sc">==</span> <span class="st">&quot;NotApplicable&quot;</span>, <span class="st">&quot;NOSBI&quot;</span>, <span class="st">&quot;SBI&quot;</span>))</span>
-<span id="cb46-3"><a href="bagging.html#cb46-3" tabindex="-1"></a><span class="fu">table</span>(sbi.data<span class="sc">$</span>sbi, sbi.data<span class="sc">$</span>sbi.bin)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="bagging.html#cb38-1" tabindex="-1"></a><span class="co"># Create a binary variable based on &quot;sbi&quot;</span></span>
+<span id="cb38-2"><a href="bagging.html#cb38-2" tabindex="-1"></a>sbi.data<span class="sc">$</span>sbi.bin <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(sbi.data<span class="sc">$</span>sbi <span class="sc">==</span> <span class="st">&quot;NotApplicable&quot;</span>, <span class="st">&quot;NOSBI&quot;</span>, <span class="st">&quot;SBI&quot;</span>))</span>
+<span id="cb38-3"><a href="bagging.html#cb38-3" tabindex="-1"></a><span class="fu">table</span>(sbi.data<span class="sc">$</span>sbi, sbi.data<span class="sc">$</span>sbi.bin)</span></code></pre></div>
 <pre><code>##                
 ##                 NOSBI  SBI
 ##   Bact              0   34
 ##   NotApplicable  1752    0
 ##   Pneu              0  251
 ##   UTI               0  311</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="bagging.html#cb48-1" tabindex="-1"></a><span class="co">#sbi.data.sub &lt;- sbi.data[,c(&quot;sbi.bin&quot;,&quot;fever_hours&quot;,&quot;age&quot;,&quot;sex&quot;,&quot;wcc&quot;,&quot;prevAB&quot;,&quot;pct&quot;,&quot;crp&quot;)]</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="bagging.html#cb40-1" tabindex="-1"></a><span class="co">#sbi.data.sub &lt;- sbi.data[,c(&quot;sbi.bin&quot;,&quot;fever_hours&quot;,&quot;age&quot;,&quot;sex&quot;,&quot;wcc&quot;,&quot;prevAB&quot;,&quot;pct&quot;,&quot;crp&quot;)]</span></span></code></pre></div>
 <p>Now, let’s using bagging to predict if a child has serious bacterial
 infection with the perdictors <strong>fever_hours</strong>, <strong>wcc</strong>, <strong>age</strong>, <strong>prevAB</strong>,
 <strong>pct</strong>, and <strong>crp</strong>.</p>
 <p>However, we will leave 200 observations out to test the model. We will
 use the <code>bagging()</code> function from the <code>ipred</code> package and fit 100 trees.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="bagging.html#cb49-1" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
-<span id="cb49-2"><a href="bagging.html#cb49-2" tabindex="-1"></a><span class="fu">library</span>(ipred)  <span class="co">#includes the bagging function </span></span>
-<span id="cb49-3"><a href="bagging.html#cb49-3" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
-<span id="cb49-4"><a href="bagging.html#cb49-4" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co"># for the kappa statistics</span></span>
-<span id="cb49-5"><a href="bagging.html#cb49-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1999</span>)</span>
-<span id="cb49-6"><a href="bagging.html#cb49-6" tabindex="-1"></a></span>
-<span id="cb49-7"><a href="bagging.html#cb49-7" tabindex="-1"></a>sbi.bag <span class="ot">&lt;-</span> <span class="fu">bagging</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
-<span id="cb49-8"><a href="bagging.html#cb49-8" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),],      <span class="co">#not using rows 500 to 700</span></span>
-<span id="cb49-9"><a href="bagging.html#cb49-9" tabindex="-1"></a>                  <span class="at">nbagg=</span><span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="bagging.html#cb41-1" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb41-2"><a href="bagging.html#cb41-2" tabindex="-1"></a><span class="fu">library</span>(ipred)  <span class="co">#includes the bagging function </span></span>
+<span id="cb41-3"><a href="bagging.html#cb41-3" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb41-4"><a href="bagging.html#cb41-4" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co"># for the kappa statistics</span></span>
+<span id="cb41-5"><a href="bagging.html#cb41-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1999</span>)</span>
+<span id="cb41-6"><a href="bagging.html#cb41-6" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="bagging.html#cb41-7" tabindex="-1"></a>sbi.bag <span class="ot">&lt;-</span> <span class="fu">bagging</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb41-8"><a href="bagging.html#cb41-8" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),],      <span class="co">#not using rows 500 to 700</span></span>
+<span id="cb41-9"><a href="bagging.html#cb41-9" tabindex="-1"></a>                  <span class="at">nbagg=</span><span class="dv">100</span>)</span></code></pre></div>
 <p>We will also fit one single tree to use as a comparison.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="bagging.html#cb50-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
-<span id="cb50-2"><a href="bagging.html#cb50-2" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),], <span class="at">method=</span><span class="st">&quot;class&quot;</span>, </span>
-<span id="cb50-3"><a href="bagging.html#cb50-3" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp=</span>.<span class="dv">001</span>))</span>
-<span id="cb50-4"><a href="bagging.html#cb50-4" tabindex="-1"></a><span class="fu">printcp</span>(sbi.tree)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="bagging.html#cb42-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb42-2"><a href="bagging.html#cb42-2" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),], <span class="at">method=</span><span class="st">&quot;class&quot;</span>, </span>
+<span id="cb42-3"><a href="bagging.html#cb42-3" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp=</span>.<span class="dv">001</span>))</span>
+<span id="cb42-4"><a href="bagging.html#cb42-4" tabindex="-1"></a><span class="fu">printcp</span>(sbi.tree)</span></code></pre></div>
 <pre><code>## 
 ## Classification tree:
 ## rpart(formula = sbi.bin ~ fever_hours + age + sex + wcc + prevAB + 
@@ -313,20 +313,20 @@ use the <code>bagging()</code> function from the <code>ipred</code> package and 
 ## 13 0.002004     39   0.73747 1.03006 0.039624
 ## 14 0.001002     54   0.70741 1.10421 0.040558
 ## 15 0.001000     56   0.70541 1.11623 0.040701</code></pre>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="bagging.html#cb52-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">prune</span>(sbi.tree, <span class="at">cp=</span><span class="fl">0.008016</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="bagging.html#cb44-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">prune</span>(sbi.tree, <span class="at">cp=</span><span class="fl">0.008016</span>)</span></code></pre></div>
 <p>We can now compute the confusion matrix for both approaches, using the
 200 cases left out from the model fitting.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="bagging.html#cb53-1" tabindex="-1"></a>sbi.test.data <span class="ot">&lt;-</span> sbi.data[<span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),]</span>
-<span id="cb53-2"><a href="bagging.html#cb53-2" tabindex="-1"></a></span>
-<span id="cb53-3"><a href="bagging.html#cb53-3" tabindex="-1"></a><span class="co">#confusion matrix for 1 tree</span></span>
-<span id="cb53-4"><a href="bagging.html#cb53-4" tabindex="-1"></a><span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
-<span id="cb53-5"><a href="bagging.html#cb53-5" tabindex="-1"></a>    <span class="fu">predict</span>(sbi.tree, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="bagging.html#cb45-1" tabindex="-1"></a>sbi.test.data <span class="ot">&lt;-</span> sbi.data[<span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),]</span>
+<span id="cb45-2"><a href="bagging.html#cb45-2" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="bagging.html#cb45-3" tabindex="-1"></a><span class="co">#confusion matrix for 1 tree</span></span>
+<span id="cb45-4"><a href="bagging.html#cb45-4" tabindex="-1"></a><span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb45-5"><a href="bagging.html#cb45-5" tabindex="-1"></a>    <span class="fu">predict</span>(sbi.tree, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>))</span></code></pre></div>
 <pre><code>##        
 ##         NOSBI SBI
 ##   NOSBI    94  10
 ##   SBI      88   9</code></pre>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="bagging.html#cb55-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
-<span id="cb55-2"><a href="bagging.html#cb55-2" tabindex="-1"></a>    <span class="fu">predict</span>(sbi.tree, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="bagging.html#cb47-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb47-2"><a href="bagging.html#cb47-2" tabindex="-1"></a>    <span class="fu">predict</span>(sbi.tree, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)))</span></code></pre></div>
 <pre><code>## Call: cohen.kappa1(x = x, w = w, n.obs = n.obs, alpha = alpha, levels = levels, 
 ##     w.exp = w.exp)
 ## 
@@ -336,15 +336,15 @@ use the <code>bagging()</code> function from the <code>ipred</code> package and 
 ## weighted kappa   -0.087  -0.0035  0.08
 ## 
 ##  Number of subjects = 201</code></pre>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="bagging.html#cb57-1" tabindex="-1"></a><span class="co">#confusion matrix for bagged trees</span></span>
-<span id="cb57-2"><a href="bagging.html#cb57-2" tabindex="-1"></a><span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
-<span id="cb57-3"><a href="bagging.html#cb57-3" tabindex="-1"></a>      <span class="fu">predict</span>(sbi.bag, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="bagging.html#cb49-1" tabindex="-1"></a><span class="co">#confusion matrix for bagged trees</span></span>
+<span id="cb49-2"><a href="bagging.html#cb49-2" tabindex="-1"></a><span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb49-3"><a href="bagging.html#cb49-3" tabindex="-1"></a>      <span class="fu">predict</span>(sbi.bag, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>))</span></code></pre></div>
 <pre><code>##        
 ##         NOSBI SBI
 ##   NOSBI    95   9
 ##   SBI      78  19</code></pre>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="bagging.html#cb59-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
-<span id="cb59-2"><a href="bagging.html#cb59-2" tabindex="-1"></a>      <span class="fu">predict</span>(sbi.bag, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="bagging.html#cb51-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb51-2"><a href="bagging.html#cb51-2" tabindex="-1"></a>      <span class="fu">predict</span>(sbi.bag, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)))</span></code></pre></div>
 <pre><code>## Call: cohen.kappa1(x = x, w = w, n.obs = n.obs, alpha = alpha, levels = levels, 
 ##     w.exp = w.exp)
 ## 
@@ -364,20 +364,20 @@ the entire dataset and compute the cross-validated AUC-ROC and confusion matrix<
 <summary>
 See the solution code
 </summary>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="bagging.html#cb61-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1777</span>)</span>
-<span id="cb61-2"><a href="bagging.html#cb61-2" tabindex="-1"></a>trctrl      <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, </span>
-<span id="cb61-3"><a href="bagging.html#cb61-3" tabindex="-1"></a>                            <span class="at">number =</span> <span class="dv">10</span>,</span>
-<span id="cb61-4"><a href="bagging.html#cb61-4" tabindex="-1"></a>                             <span class="at">classProbs =</span> <span class="cn">TRUE</span>,  </span>
-<span id="cb61-5"><a href="bagging.html#cb61-5" tabindex="-1"></a>                            <span class="at">summaryFunction =</span> twoClassSummary)</span>
-<span id="cb61-6"><a href="bagging.html#cb61-6" tabindex="-1"></a></span>
-<span id="cb61-7"><a href="bagging.html#cb61-7" tabindex="-1"></a>bag.sbi    <span class="ot">&lt;-</span> <span class="fu">train</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
-<span id="cb61-8"><a href="bagging.html#cb61-8" tabindex="-1"></a>                            <span class="at">data =</span> sbi.data,</span>
-<span id="cb61-9"><a href="bagging.html#cb61-9" tabindex="-1"></a>                            <span class="at">method =</span> <span class="st">&quot;treebag&quot;</span>,</span>
-<span id="cb61-10"><a href="bagging.html#cb61-10" tabindex="-1"></a>                            <span class="at">trControl =</span> trctrl,</span>
-<span id="cb61-11"><a href="bagging.html#cb61-11" tabindex="-1"></a>                            <span class="at">nbagg =</span> <span class="dv">100</span>,</span>
-<span id="cb61-12"><a href="bagging.html#cb61-12" tabindex="-1"></a>                            <span class="at">metric=</span><span class="st">&quot;ROC&quot;</span>)</span>
-<span id="cb61-13"><a href="bagging.html#cb61-13" tabindex="-1"></a>bag.sbi</span>
-<span id="cb61-14"><a href="bagging.html#cb61-14" tabindex="-1"></a><span class="fu">confusionMatrix</span>(bag.sbi)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="bagging.html#cb53-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1777</span>)</span>
+<span id="cb53-2"><a href="bagging.html#cb53-2" tabindex="-1"></a>trctrl      <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, </span>
+<span id="cb53-3"><a href="bagging.html#cb53-3" tabindex="-1"></a>                            <span class="at">number =</span> <span class="dv">10</span>,</span>
+<span id="cb53-4"><a href="bagging.html#cb53-4" tabindex="-1"></a>                             <span class="at">classProbs =</span> <span class="cn">TRUE</span>,  </span>
+<span id="cb53-5"><a href="bagging.html#cb53-5" tabindex="-1"></a>                            <span class="at">summaryFunction =</span> twoClassSummary)</span>
+<span id="cb53-6"><a href="bagging.html#cb53-6" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="bagging.html#cb53-7" tabindex="-1"></a>bag.sbi    <span class="ot">&lt;-</span> <span class="fu">train</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb53-8"><a href="bagging.html#cb53-8" tabindex="-1"></a>                            <span class="at">data =</span> sbi.data,</span>
+<span id="cb53-9"><a href="bagging.html#cb53-9" tabindex="-1"></a>                            <span class="at">method =</span> <span class="st">&quot;treebag&quot;</span>,</span>
+<span id="cb53-10"><a href="bagging.html#cb53-10" tabindex="-1"></a>                            <span class="at">trControl =</span> trctrl,</span>
+<span id="cb53-11"><a href="bagging.html#cb53-11" tabindex="-1"></a>                            <span class="at">nbagg =</span> <span class="dv">100</span>,</span>
+<span id="cb53-12"><a href="bagging.html#cb53-12" tabindex="-1"></a>                            <span class="at">metric=</span><span class="st">&quot;ROC&quot;</span>)</span>
+<span id="cb53-13"><a href="bagging.html#cb53-13" tabindex="-1"></a>bag.sbi</span>
+<span id="cb53-14"><a href="bagging.html#cb53-14" tabindex="-1"></a><span class="fu">confusionMatrix</span>(bag.sbi)</span></code></pre></div>
 </details>
 <p>
 <p>
@@ -387,19 +387,19 @@ See the solution code
 <p>Let’s compute the variable importance based on the <code>sbi.bag</code> bagging model.
 The function <code>varImp()</code> from the <code>caret</code> package, can be applied to the
 result of the <code>bagging()</code> function</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="bagging.html#cb62-1" tabindex="-1"></a>pred.imp <span class="ot">&lt;-</span> <span class="fu">varImp</span>(sbi.bag)</span>
-<span id="cb62-2"><a href="bagging.html#cb62-2" tabindex="-1"></a>pred.imp</span>
-<span id="cb62-3"><a href="bagging.html#cb62-3" tabindex="-1"></a></span>
-<span id="cb62-4"><a href="bagging.html#cb62-4" tabindex="-1"></a><span class="co">#You can also plot the results</span></span>
-<span id="cb62-5"><a href="bagging.html#cb62-5" tabindex="-1"></a><span class="fu">barplot</span>(pred.imp<span class="sc">$</span>Overall, </span>
-<span id="cb62-6"><a href="bagging.html#cb62-6" tabindex="-1"></a>        <span class="at">names.arg =</span> <span class="fu">row.names</span>(pred.imp))</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="bagging.html#cb54-1" tabindex="-1"></a>pred.imp <span class="ot">&lt;-</span> <span class="fu">varImp</span>(sbi.bag)</span>
+<span id="cb54-2"><a href="bagging.html#cb54-2" tabindex="-1"></a>pred.imp</span>
+<span id="cb54-3"><a href="bagging.html#cb54-3" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="bagging.html#cb54-4" tabindex="-1"></a><span class="co">#You can also plot the results</span></span>
+<span id="cb54-5"><a href="bagging.html#cb54-5" tabindex="-1"></a><span class="fu">barplot</span>(pred.imp<span class="sc">$</span>Overall, </span>
+<span id="cb54-6"><a href="bagging.html#cb54-6" tabindex="-1"></a>        <span class="at">names.arg =</span> <span class="fu">row.names</span>(pred.imp))</span></code></pre></div>
 <p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-22-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="bagging.html#cb63-1" tabindex="-1"></a><span class="co">#If you use the caret package</span></span>
-<span id="cb63-2"><a href="bagging.html#cb63-2" tabindex="-1"></a><span class="co">#to fit the model, you can use the ggplot() to create an alternative plot</span></span>
-<span id="cb63-3"><a href="bagging.html#cb63-3" tabindex="-1"></a></span>
-<span id="cb63-4"><a href="bagging.html#cb63-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb63-5"><a href="bagging.html#cb63-5" tabindex="-1"></a>pred.imp.caret <span class="ot">&lt;-</span> <span class="fu">varImp</span>(bag.sbi)</span>
-<span id="cb63-6"><a href="bagging.html#cb63-6" tabindex="-1"></a><span class="fu">ggplot</span>(pred.imp.caret) <span class="co">#This is a standard ggplot object which can be edited in the usual way</span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="bagging.html#cb55-1" tabindex="-1"></a><span class="co">#If you use the caret package</span></span>
+<span id="cb55-2"><a href="bagging.html#cb55-2" tabindex="-1"></a><span class="co">#to fit the model, you can use the ggplot() to create an alternative plot</span></span>
+<span id="cb55-3"><a href="bagging.html#cb55-3" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="bagging.html#cb55-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb55-5"><a href="bagging.html#cb55-5" tabindex="-1"></a>pred.imp.caret <span class="ot">&lt;-</span> <span class="fu">varImp</span>(bag.sbi)</span>
+<span id="cb55-6"><a href="bagging.html#cb55-6" tabindex="-1"></a><span class="fu">ggplot</span>(pred.imp.caret) <span class="co">#This is a standard ggplot object which can be edited in the usual way</span></span></code></pre></div>
 <p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-22-2.png" alt="" width="672" /></p>
 </div>
 </div>
