@@ -394,13 +394,14 @@ result of the <code>bagging()</code> function</p>
 <span id="cb54-5"><a href="bagging.html#cb54-5" tabindex="-1"></a><span class="fu">barplot</span>(pred.imp<span class="sc">$</span>Overall, </span>
 <span id="cb54-6"><a href="bagging.html#cb54-6" tabindex="-1"></a>        <span class="at">names.arg =</span> <span class="fu">row.names</span>(pred.imp))</span></code></pre></div>
 <p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-22-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="bagging.html#cb55-1" tabindex="-1"></a><span class="co">#If you use the caret package</span></span>
-<span id="cb55-2"><a href="bagging.html#cb55-2" tabindex="-1"></a><span class="co">#to fit the model, you can use the ggplot() to create an alternative plot</span></span>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="bagging.html#cb55-1" tabindex="-1"></a><span class="co">#If you use the caret package to fit the model, you can use</span></span>
+<span id="cb55-2"><a href="bagging.html#cb55-2" tabindex="-1"></a><span class="co">#ggplot() to create an alternative plot</span></span>
 <span id="cb55-3"><a href="bagging.html#cb55-3" tabindex="-1"></a></span>
 <span id="cb55-4"><a href="bagging.html#cb55-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb55-5"><a href="bagging.html#cb55-5" tabindex="-1"></a>pred.imp.caret <span class="ot">&lt;-</span> <span class="fu">varImp</span>(bag.sbi)</span>
-<span id="cb55-6"><a href="bagging.html#cb55-6" tabindex="-1"></a><span class="fu">ggplot</span>(pred.imp.caret) <span class="co">#This is a standard ggplot object which can be edited in the usual way</span></span></code></pre></div>
+<span id="cb55-6"><a href="bagging.html#cb55-6" tabindex="-1"></a><span class="fu">ggplot</span>(pred.imp.caret)</span></code></pre></div>
 <p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-22-2.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="bagging.html#cb56-1" tabindex="-1"></a><span class="co">#This is a standard ggplot object which can be edited in the usual way</span></span></code></pre></div>
 </div>
 </div>
 <div id="BA4" class="section level2 hasAnchor" number="2.4">

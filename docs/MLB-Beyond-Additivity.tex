@@ -1338,16 +1338,22 @@ result of the \texttt{bagging()} function
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#If you use the caret package}
-\CommentTok{\#to fit the model, you can use the ggplot() to create an alternative plot}
+\CommentTok{\#If you use the caret package to fit the model, you can use}
+\CommentTok{\#ggplot() to create an alternative plot}
 
 \FunctionTok{library}\NormalTok{(ggplot2)}
 \NormalTok{pred.imp.caret }\OtherTok{\textless{}{-}} \FunctionTok{varImp}\NormalTok{(bag.sbi)}
-\FunctionTok{ggplot}\NormalTok{(pred.imp.caret) }\CommentTok{\#This is a standard ggplot object which can be edited in the usual way}
+\FunctionTok{ggplot}\NormalTok{(pred.imp.caret)}
 \end{Highlighting}
 \end{Shaded}
 
 \pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-22-2.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#This is a standard ggplot object which can be edited in the usual way}
+\end{Highlighting}
+\end{Shaded}
 
 \section{Exercises}\label{BA4}
 
@@ -1696,15 +1702,22 @@ Let's compute the variable importance based on the \texttt{rf.sbi} random forest
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#If you use the caret package to fit the model, you can use the ggplot() to create an alternative plot}
+\CommentTok{\#If you use the caret package to fit the model, you can use}
+\CommentTok{\#ggplot() to create an alternative plot}
 
 \FunctionTok{library}\NormalTok{(ggplot2)}
 \NormalTok{pred.imp.caret }\OtherTok{\textless{}{-}} \FunctionTok{varImp}\NormalTok{(sbi.rf)}
-\FunctionTok{ggplot}\NormalTok{(pred.imp.caret) }\CommentTok{\#This is a standard ggplot object which can be edited in the usual way}
+\FunctionTok{ggplot}\NormalTok{(pred.imp.caret)}
 \end{Highlighting}
 \end{Shaded}
 
 \pandocbounded{\includegraphics[keepaspectratio]{MLB-Beyond-Additivity_files/MLB-Beyond-Additivity_files/figure-latex/unnamed-chunk-28-2.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#This is a standard ggplot object which can be edited in the usual way}
+\end{Highlighting}
+\end{Shaded}
 
 \section{Exercises}\label{RF4}
 

@@ -240,8 +240,8 @@ The variable <strong>sbi</strong> has
 4 categories: Not Applicable(no infection) / UTI / Pneum / Bact</p>
 <p>Create a new variable sbi.bin that identifies if a child was diagnosed
 or not with serious bacterial infection.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="random-forests.html#cb56-1" tabindex="-1"></a>sbi.data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/wg32uj43fsy9yvd/SBI.csv?dl=1&quot;</span>)</span>
-<span id="cb56-2"><a href="random-forests.html#cb56-2" tabindex="-1"></a><span class="fu">summary</span>(sbi.data)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="random-forests.html#cb57-1" tabindex="-1"></a>sbi.data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/wg32uj43fsy9yvd/SBI.csv?dl=1&quot;</span>)</span>
+<span id="cb57-2"><a href="random-forests.html#cb57-2" tabindex="-1"></a><span class="fu">summary</span>(sbi.data)</span></code></pre></div>
 <pre><code>##        X                id          fever_hours           age               sex            wcc                prevAB    
 ##  Min.   :   1.0   Min.   :   495   Min.   :   0.00   Min.   :0.010   Length   :2348   Min.   : 0.2368   Length   :2348  
 ##  1st Qu.: 587.8   1st Qu.:133039   1st Qu.:  24.00   1st Qu.:0.760   N.unique :   2   1st Qu.: 7.9000   N.unique :   2  
@@ -256,36 +256,36 @@ or not with serious bacterial infection.</p>
 ##  Min.nchar:   3   Mean   :3.744e+00   Mean   : 48.41  
 ##  Max.nchar:  13   3rd Qu.:4.620e+00   3rd Qu.: 66.20  
 ##                   Max.   :1.565e+02   Max.   :429.90</code></pre>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="random-forests.html#cb58-1" tabindex="-1"></a><span class="co"># Create a binary variable based on &quot;sbi&quot;</span></span>
-<span id="cb58-2"><a href="random-forests.html#cb58-2" tabindex="-1"></a>sbi.data<span class="sc">$</span>sbi.bin <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(sbi.data<span class="sc">$</span>sbi <span class="sc">==</span> <span class="st">&quot;NotApplicable&quot;</span>, <span class="st">&quot;NOSBI&quot;</span>, <span class="st">&quot;SBI&quot;</span>))</span>
-<span id="cb58-3"><a href="random-forests.html#cb58-3" tabindex="-1"></a><span class="fu">table</span>(sbi.data<span class="sc">$</span>sbi, sbi.data<span class="sc">$</span>sbi.bin)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="random-forests.html#cb59-1" tabindex="-1"></a><span class="co"># Create a binary variable based on &quot;sbi&quot;</span></span>
+<span id="cb59-2"><a href="random-forests.html#cb59-2" tabindex="-1"></a>sbi.data<span class="sc">$</span>sbi.bin <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(sbi.data<span class="sc">$</span>sbi <span class="sc">==</span> <span class="st">&quot;NotApplicable&quot;</span>, <span class="st">&quot;NOSBI&quot;</span>, <span class="st">&quot;SBI&quot;</span>))</span>
+<span id="cb59-3"><a href="random-forests.html#cb59-3" tabindex="-1"></a><span class="fu">table</span>(sbi.data<span class="sc">$</span>sbi, sbi.data<span class="sc">$</span>sbi.bin)</span></code></pre></div>
 <pre><code>##                
 ##                 NOSBI  SBI
 ##   Bact              0   34
 ##   NotApplicable  1752    0
 ##   Pneu              0  251
 ##   UTI               0  311</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="random-forests.html#cb60-1" tabindex="-1"></a><span class="co">#sbi.data.sub &lt;- sbi.data[,c(&quot;sbi.bin&quot;,&quot;fever_hours&quot;,&quot;age&quot;,&quot;sex&quot;,&quot;wcc&quot;,&quot;prevAB&quot;,&quot;pct&quot;,&quot;crp&quot;)]</span></span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="random-forests.html#cb61-1" tabindex="-1"></a><span class="co">#sbi.data.sub &lt;- sbi.data[,c(&quot;sbi.bin&quot;,&quot;fever_hours&quot;,&quot;age&quot;,&quot;sex&quot;,&quot;wcc&quot;,&quot;prevAB&quot;,&quot;pct&quot;,&quot;crp&quot;)]</span></span></code></pre></div>
 <p>Now, let’s using a Random Forest to predict if a child has serious bacterial
 infection with the predictors <strong>fever_hours</strong>, <strong>wcc</strong>, <strong>age</strong>, <strong>prevAB</strong>,
 <strong>pct</strong>, and <strong>crp</strong>.</p>
 <p>However, we will leave 200 observations out to test the model. We will
 use the <code>randomForest()</code> function from the <code>randomForest</code> package and fit
 100 trees with 2 predictors at each node (<span class="math inline">\(\sqrt(7)=2.6\)</span>)</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="random-forests.html#cb61-1" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
-<span id="cb61-2"><a href="random-forests.html#cb61-2" tabindex="-1"></a><span class="fu">library</span>(randomForest)  <span class="co">#includes the randomForest function </span></span>
-<span id="cb61-3"><a href="random-forests.html#cb61-3" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
-<span id="cb61-4"><a href="random-forests.html#cb61-4" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co"># for the kappa statistics</span></span>
-<span id="cb61-5"><a href="random-forests.html#cb61-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1999</span>)</span>
-<span id="cb61-6"><a href="random-forests.html#cb61-6" tabindex="-1"></a></span>
-<span id="cb61-7"><a href="random-forests.html#cb61-7" tabindex="-1"></a>rf.sbi <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
-<span id="cb61-8"><a href="random-forests.html#cb61-8" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),],      <span class="co">#not using rows 500 to 700</span></span>
-<span id="cb61-9"><a href="random-forests.html#cb61-9" tabindex="-1"></a>                  <span class="at">ntree=</span><span class="dv">100</span>, <span class="at">mtry=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="random-forests.html#cb62-1" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb62-2"><a href="random-forests.html#cb62-2" tabindex="-1"></a><span class="fu">library</span>(randomForest)  <span class="co">#includes the randomForest function </span></span>
+<span id="cb62-3"><a href="random-forests.html#cb62-3" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb62-4"><a href="random-forests.html#cb62-4" tabindex="-1"></a><span class="fu">library</span>(psych) <span class="co"># for the kappa statistics</span></span>
+<span id="cb62-5"><a href="random-forests.html#cb62-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1999</span>)</span>
+<span id="cb62-6"><a href="random-forests.html#cb62-6" tabindex="-1"></a></span>
+<span id="cb62-7"><a href="random-forests.html#cb62-7" tabindex="-1"></a>rf.sbi <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb62-8"><a href="random-forests.html#cb62-8" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),],      <span class="co">#not using rows 500 to 700</span></span>
+<span id="cb62-9"><a href="random-forests.html#cb62-9" tabindex="-1"></a>                  <span class="at">ntree=</span><span class="dv">100</span>, <span class="at">mtry=</span><span class="dv">2</span>)</span></code></pre></div>
 <p>We will also fit one single tree to use as a comparison.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="random-forests.html#cb62-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
-<span id="cb62-2"><a href="random-forests.html#cb62-2" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),], <span class="at">method=</span><span class="st">&quot;class&quot;</span>, </span>
-<span id="cb62-3"><a href="random-forests.html#cb62-3" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp=</span>.<span class="dv">001</span>))</span>
-<span id="cb62-4"><a href="random-forests.html#cb62-4" tabindex="-1"></a><span class="fu">printcp</span>(sbi.tree)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="random-forests.html#cb63-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">rpart</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb63-2"><a href="random-forests.html#cb63-2" tabindex="-1"></a>                  <span class="at">data =</span> sbi.data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),], <span class="at">method=</span><span class="st">&quot;class&quot;</span>, </span>
+<span id="cb63-3"><a href="random-forests.html#cb63-3" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp=</span>.<span class="dv">001</span>))</span>
+<span id="cb63-4"><a href="random-forests.html#cb63-4" tabindex="-1"></a><span class="fu">printcp</span>(sbi.tree)</span></code></pre></div>
 <pre><code>## 
 ## Classification tree:
 ## rpart(formula = sbi.bin ~ fever_hours + age + sex + wcc + prevAB + 
@@ -315,20 +315,20 @@ use the <code>randomForest()</code> function from the <code>randomForest</code> 
 ## 13 0.002004     39   0.73747 1.0501 0.039885
 ## 14 0.001002     54   0.70741 1.1303 0.040866
 ## 15 0.001000     56   0.70541 1.1703 0.041321</code></pre>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="random-forests.html#cb64-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">prune</span>(sbi.tree, <span class="at">cp=</span><span class="fl">0.008016</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="random-forests.html#cb65-1" tabindex="-1"></a>sbi.tree <span class="ot">&lt;-</span> <span class="fu">prune</span>(sbi.tree, <span class="at">cp=</span><span class="fl">0.008016</span>)</span></code></pre></div>
 <p>We can now compute the confusion matrix for both approaches, using the
 200 cases left out from the model fitting.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="random-forests.html#cb65-1" tabindex="-1"></a>sbi.test.data <span class="ot">&lt;-</span> sbi.data[<span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),]</span>
-<span id="cb65-2"><a href="random-forests.html#cb65-2" tabindex="-1"></a></span>
-<span id="cb65-3"><a href="random-forests.html#cb65-3" tabindex="-1"></a><span class="co">#confusion matrix for 1 tree</span></span>
-<span id="cb65-4"><a href="random-forests.html#cb65-4" tabindex="-1"></a><span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
-<span id="cb65-5"><a href="random-forests.html#cb65-5" tabindex="-1"></a>    <span class="fu">predict</span>(sbi.tree, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="random-forests.html#cb66-1" tabindex="-1"></a>sbi.test.data <span class="ot">&lt;-</span> sbi.data[<span class="fu">c</span>(<span class="dv">500</span><span class="sc">:</span><span class="dv">700</span>),]</span>
+<span id="cb66-2"><a href="random-forests.html#cb66-2" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="random-forests.html#cb66-3" tabindex="-1"></a><span class="co">#confusion matrix for 1 tree</span></span>
+<span id="cb66-4"><a href="random-forests.html#cb66-4" tabindex="-1"></a><span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb66-5"><a href="random-forests.html#cb66-5" tabindex="-1"></a>    <span class="fu">predict</span>(sbi.tree, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>))</span></code></pre></div>
 <pre><code>##        
 ##         NOSBI SBI
 ##   NOSBI    94  10
 ##   SBI      88   9</code></pre>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="random-forests.html#cb67-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
-<span id="cb67-2"><a href="random-forests.html#cb67-2" tabindex="-1"></a>    <span class="fu">predict</span>(sbi.tree, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="random-forests.html#cb68-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb68-2"><a href="random-forests.html#cb68-2" tabindex="-1"></a>    <span class="fu">predict</span>(sbi.tree, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)))</span></code></pre></div>
 <pre><code>## Call: cohen.kappa1(x = x, w = w, n.obs = n.obs, alpha = alpha, levels = levels, 
 ##     w.exp = w.exp)
 ## 
@@ -338,15 +338,15 @@ use the <code>randomForest()</code> function from the <code>randomForest</code> 
 ## weighted kappa   -0.087  -0.0035  0.08
 ## 
 ##  Number of subjects = 201</code></pre>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="random-forests.html#cb69-1" tabindex="-1"></a><span class="co">#confusion matrix for RF</span></span>
-<span id="cb69-2"><a href="random-forests.html#cb69-2" tabindex="-1"></a><span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
-<span id="cb69-3"><a href="random-forests.html#cb69-3" tabindex="-1"></a>      <span class="fu">predict</span>(rf.sbi, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="random-forests.html#cb70-1" tabindex="-1"></a><span class="co">#confusion matrix for RF</span></span>
+<span id="cb70-2"><a href="random-forests.html#cb70-2" tabindex="-1"></a><span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb70-3"><a href="random-forests.html#cb70-3" tabindex="-1"></a>      <span class="fu">predict</span>(rf.sbi, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>))</span></code></pre></div>
 <pre><code>##        
 ##         NOSBI SBI
 ##   NOSBI    98   6
 ##   SBI      84  13</code></pre>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="random-forests.html#cb71-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
-<span id="cb71-2"><a href="random-forests.html#cb71-2" tabindex="-1"></a>      <span class="fu">predict</span>(rf.sbi, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="random-forests.html#cb72-1" tabindex="-1"></a><span class="fu">cohen.kappa</span>(<span class="fu">table</span>(sbi.test.data<span class="sc">$</span>sbi.bin, </span>
+<span id="cb72-2"><a href="random-forests.html#cb72-2" tabindex="-1"></a>      <span class="fu">predict</span>(rf.sbi, sbi.test.data, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)))</span></code></pre></div>
 <pre><code>## Call: cohen.kappa1(x = x, w = w, n.obs = n.obs, alpha = alpha, levels = levels, 
 ##     w.exp = w.exp)
 ## 
@@ -366,23 +366,23 @@ the entire dataset and compute the cross-validated AUC-ROC and confusion matrix<
 <summary>
 See the solution code
 </summary>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="random-forests.html#cb73-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1777</span>)</span>
-<span id="cb73-2"><a href="random-forests.html#cb73-2" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
-<span id="cb73-3"><a href="random-forests.html#cb73-3" tabindex="-1"></a>trctrl      <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, </span>
-<span id="cb73-4"><a href="random-forests.html#cb73-4" tabindex="-1"></a>                            <span class="at">number =</span> <span class="dv">10</span>,</span>
-<span id="cb73-5"><a href="random-forests.html#cb73-5" tabindex="-1"></a>                            <span class="at">repeats =</span> <span class="dv">5</span>,</span>
-<span id="cb73-6"><a href="random-forests.html#cb73-6" tabindex="-1"></a>                             <span class="at">classProbs =</span> <span class="cn">TRUE</span>,  </span>
-<span id="cb73-7"><a href="random-forests.html#cb73-7" tabindex="-1"></a>                            <span class="at">summaryFunction =</span> twoClassSummary)</span>
-<span id="cb73-8"><a href="random-forests.html#cb73-8" tabindex="-1"></a></span>
-<span id="cb73-9"><a href="random-forests.html#cb73-9" tabindex="-1"></a>sbi.rf    <span class="ot">&lt;-</span> <span class="fu">train</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
-<span id="cb73-10"><a href="random-forests.html#cb73-10" tabindex="-1"></a>                            <span class="at">data =</span> sbi.data,</span>
-<span id="cb73-11"><a href="random-forests.html#cb73-11" tabindex="-1"></a>                            <span class="at">method =</span> <span class="st">&quot;rf&quot;</span>,</span>
-<span id="cb73-12"><a href="random-forests.html#cb73-12" tabindex="-1"></a>                            <span class="at">trControl =</span> trctrl,</span>
-<span id="cb73-13"><a href="random-forests.html#cb73-13" tabindex="-1"></a>                            <span class="at">ntree =</span> <span class="dv">100</span>,</span>
-<span id="cb73-14"><a href="random-forests.html#cb73-14" tabindex="-1"></a>                            <span class="at">tuneGrid =</span> <span class="fu">expand.grid</span>(<span class="at">mtry =</span> <span class="fu">sqrt</span>(<span class="dv">7</span>)),</span>
-<span id="cb73-15"><a href="random-forests.html#cb73-15" tabindex="-1"></a>                            <span class="at">metric=</span><span class="st">&quot;ROC&quot;</span>)</span>
-<span id="cb73-16"><a href="random-forests.html#cb73-16" tabindex="-1"></a>sbi.rf</span>
-<span id="cb73-17"><a href="random-forests.html#cb73-17" tabindex="-1"></a><span class="fu">confusionMatrix</span>(sbi.rf)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="random-forests.html#cb74-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1777</span>)</span>
+<span id="cb74-2"><a href="random-forests.html#cb74-2" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb74-3"><a href="random-forests.html#cb74-3" tabindex="-1"></a>trctrl      <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, </span>
+<span id="cb74-4"><a href="random-forests.html#cb74-4" tabindex="-1"></a>                            <span class="at">number =</span> <span class="dv">10</span>,</span>
+<span id="cb74-5"><a href="random-forests.html#cb74-5" tabindex="-1"></a>                            <span class="at">repeats =</span> <span class="dv">5</span>,</span>
+<span id="cb74-6"><a href="random-forests.html#cb74-6" tabindex="-1"></a>                             <span class="at">classProbs =</span> <span class="cn">TRUE</span>,  </span>
+<span id="cb74-7"><a href="random-forests.html#cb74-7" tabindex="-1"></a>                            <span class="at">summaryFunction =</span> twoClassSummary)</span>
+<span id="cb74-8"><a href="random-forests.html#cb74-8" tabindex="-1"></a></span>
+<span id="cb74-9"><a href="random-forests.html#cb74-9" tabindex="-1"></a>sbi.rf    <span class="ot">&lt;-</span> <span class="fu">train</span>(sbi.bin <span class="sc">~</span> fever_hours<span class="sc">+</span>age<span class="sc">+</span>sex<span class="sc">+</span>wcc<span class="sc">+</span>prevAB<span class="sc">+</span>pct<span class="sc">+</span>crp,</span>
+<span id="cb74-10"><a href="random-forests.html#cb74-10" tabindex="-1"></a>                            <span class="at">data =</span> sbi.data,</span>
+<span id="cb74-11"><a href="random-forests.html#cb74-11" tabindex="-1"></a>                            <span class="at">method =</span> <span class="st">&quot;rf&quot;</span>,</span>
+<span id="cb74-12"><a href="random-forests.html#cb74-12" tabindex="-1"></a>                            <span class="at">trControl =</span> trctrl,</span>
+<span id="cb74-13"><a href="random-forests.html#cb74-13" tabindex="-1"></a>                            <span class="at">ntree =</span> <span class="dv">100</span>,</span>
+<span id="cb74-14"><a href="random-forests.html#cb74-14" tabindex="-1"></a>                            <span class="at">tuneGrid =</span> <span class="fu">expand.grid</span>(<span class="at">mtry =</span> <span class="fu">sqrt</span>(<span class="dv">7</span>)),</span>
+<span id="cb74-15"><a href="random-forests.html#cb74-15" tabindex="-1"></a>                            <span class="at">metric=</span><span class="st">&quot;ROC&quot;</span>)</span>
+<span id="cb74-16"><a href="random-forests.html#cb74-16" tabindex="-1"></a>sbi.rf</span>
+<span id="cb74-17"><a href="random-forests.html#cb74-17" tabindex="-1"></a><span class="fu">confusionMatrix</span>(sbi.rf)</span></code></pre></div>
 </details>
 <p>
 <p>
@@ -390,19 +390,21 @@ See the solution code
 <div id="task-2---compute-the-variables-importance" class="section level3 unnumbered hasAnchor">
 <h3>Task 2 - Compute the variables importance<a href="random-forests.html#task-2---compute-the-variables-importance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Let’s compute the variable importance based on the <code>rf.sbi</code> random forest model.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="random-forests.html#cb74-1" tabindex="-1"></a>pred.imp <span class="ot">&lt;-</span> <span class="fu">varImp</span>(rf.sbi)</span>
-<span id="cb74-2"><a href="random-forests.html#cb74-2" tabindex="-1"></a>pred.imp</span>
-<span id="cb74-3"><a href="random-forests.html#cb74-3" tabindex="-1"></a></span>
-<span id="cb74-4"><a href="random-forests.html#cb74-4" tabindex="-1"></a><span class="co">#You can also plot the results</span></span>
-<span id="cb74-5"><a href="random-forests.html#cb74-5" tabindex="-1"></a><span class="fu">barplot</span>(pred.imp<span class="sc">$</span>Overall, </span>
-<span id="cb74-6"><a href="random-forests.html#cb74-6" tabindex="-1"></a>        <span class="at">names.arg =</span> <span class="fu">row.names</span>(pred.imp))</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="random-forests.html#cb75-1" tabindex="-1"></a>pred.imp <span class="ot">&lt;-</span> <span class="fu">varImp</span>(rf.sbi)</span>
+<span id="cb75-2"><a href="random-forests.html#cb75-2" tabindex="-1"></a>pred.imp</span>
+<span id="cb75-3"><a href="random-forests.html#cb75-3" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="random-forests.html#cb75-4" tabindex="-1"></a><span class="co">#You can also plot the results</span></span>
+<span id="cb75-5"><a href="random-forests.html#cb75-5" tabindex="-1"></a><span class="fu">barplot</span>(pred.imp<span class="sc">$</span>Overall, </span>
+<span id="cb75-6"><a href="random-forests.html#cb75-6" tabindex="-1"></a>        <span class="at">names.arg =</span> <span class="fu">row.names</span>(pred.imp))</span></code></pre></div>
 <p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-28-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="random-forests.html#cb75-1" tabindex="-1"></a><span class="co">#If you use the caret package to fit the model, you can use the ggplot() to create an alternative plot</span></span>
-<span id="cb75-2"><a href="random-forests.html#cb75-2" tabindex="-1"></a></span>
-<span id="cb75-3"><a href="random-forests.html#cb75-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb75-4"><a href="random-forests.html#cb75-4" tabindex="-1"></a>pred.imp.caret <span class="ot">&lt;-</span> <span class="fu">varImp</span>(sbi.rf)</span>
-<span id="cb75-5"><a href="random-forests.html#cb75-5" tabindex="-1"></a><span class="fu">ggplot</span>(pred.imp.caret) <span class="co">#This is a standard ggplot object which can be edited in the usual way</span></span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="random-forests.html#cb76-1" tabindex="-1"></a><span class="co">#If you use the caret package to fit the model, you can use</span></span>
+<span id="cb76-2"><a href="random-forests.html#cb76-2" tabindex="-1"></a><span class="co">#ggplot() to create an alternative plot</span></span>
+<span id="cb76-3"><a href="random-forests.html#cb76-3" tabindex="-1"></a></span>
+<span id="cb76-4"><a href="random-forests.html#cb76-4" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb76-5"><a href="random-forests.html#cb76-5" tabindex="-1"></a>pred.imp.caret <span class="ot">&lt;-</span> <span class="fu">varImp</span>(sbi.rf)</span>
+<span id="cb76-6"><a href="random-forests.html#cb76-6" tabindex="-1"></a><span class="fu">ggplot</span>(pred.imp.caret)</span></code></pre></div>
 <p><img src="MLB-Beyond-Additivity_files/figure-html/unnamed-chunk-28-2.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="random-forests.html#cb77-1" tabindex="-1"></a><span class="co">#This is a standard ggplot object which can be edited in the usual way</span></span></code></pre></div>
 </div>
 </div>
 <div id="RF4" class="section level2 hasAnchor" number="3.4">
